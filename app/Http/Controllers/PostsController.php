@@ -57,11 +57,6 @@ class PostsController extends Controller
         $article->active = (bool)request('active');
         $article->save();
 
-        /*
-         * Можно отправлять запрос через update, но тогда булевая переменная не сработает
-         * $article->update(request(['slug', 'title', 'brief', 'fulltext', (bool)'active']));
-         * */
-        $success = true;
         return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');;
     }
 

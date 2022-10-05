@@ -1,12 +1,12 @@
 <div class="mb-3">
     <label for="slug" class="form-label">Символьный код</label>
     <input type="text" class="form-control" id="slug" name="slug"
-           value="@if( isset($article) ) {{ old('slug', $article->slug) }} @else {{ old('slug') }} @endif">
+           value="@if( isset($article) ) {{ old('slug', $article->slug) }} @else {{ old('slug') }} @endif" />
 </div>
 <div class="mb-3">
     <label for="title" class="form-label">Название статьи</label>
     <input type="text" class="form-control" id="title" name="title"
-           value="@if( isset($article) ) {{ old('title', $article->title) }} @else {{ old('title') }} @endif">
+           value="@if( isset($article) ) {{ old('title', $article->title) }} @else {{ old('title') }} @endif" />
 </div>
 <div class="mb-3">
     <label for="brief" class="form-label">Краткое описание статьи</label>
@@ -18,6 +18,7 @@
 </div>
 <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="active" name="active"
+           value = "@if( isset($article) ){{ $article->active  }}@else{{ old('active') }}@endif"
            @if( isset($article) )
                @if( $article->active ) checked @endif
            @else
