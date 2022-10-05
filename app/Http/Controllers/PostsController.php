@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use Illuminate\Http\Request;
+use MyHelpers\ArticleValidate;
 
 class PostsController extends Controller
 {
@@ -13,9 +13,8 @@ class PostsController extends Controller
         return view('index', compact('articles'));
     }
 
-    public function article($slug)
+    public function show(Article $article)
     {
-        $article = Article::where('slug', '=', $slug)->get()->first();
         return view('pages.article', compact('article'));
     }
 
@@ -26,12 +25,7 @@ class PostsController extends Controller
 
     public function store()
     {
-        $this->validate(request(), [
-            'slug' => 'required|string|max:255|regex:/^[0-9a-z\-\_]+$/i|unique:articles,slug',
-            'title' => 'required|min:5|max:100',
-            'brief' => 'required|max:255',
-            'fulltext' => 'required',
-        ]);
+        $attributes = new ArticleValidate(request(), true);
 
         Article::create([
             'slug' => request('slug'),
@@ -41,6 +35,37 @@ class PostsController extends Controller
             'active' => (bool)request('active'),
         ]);
 
-        return redirect('/articles/create');
+        return redirect('/admin/article/create')->with('status', 'Статья успешно создана!');
+    }
+
+    public function edit(Article $article)
+    {
+        $success = false;
+        return view('admin.edit-post', compact('article', 'success'));
+    }
+
+    public function update(Article $article)
+    {
+        $attributes = new ArticleValidate(request(), false);
+
+        $article->slug = request('slug');
+        $article->title = request('title');
+        $article->brief = request('brief');
+        $article->fulltext = request('fulltext');
+        $article->active = (bool)request('active');
+        $article->save();
+
+        /*
+         * Можно отправлять запрос через update, но тогда булевая переменная не сработает
+         * $article->update(request(['slug', 'title', 'brief', 'fulltext', (bool)'active']));
+         * */
+        $success = true;
+        return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');;
+    }
+
+    public function destroy(Article $article)
+    {
+        $article->delete();
+        return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');;
     }
 }
