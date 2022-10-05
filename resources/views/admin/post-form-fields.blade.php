@@ -18,7 +18,6 @@
 </div>
 <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="active" name="active"
-           value = "@if( isset($article) ){{ $article->active  }}@else{{ old('active') }}@endif"
            @if( isset($article) )
                @if( $article->active ) checked @endif
            @else
