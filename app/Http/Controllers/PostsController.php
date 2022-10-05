@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use MyHelpers\ArticleValidate;
+use MyHelpers\FormRequest;
 
 class PostsController extends Controller
 {
@@ -25,7 +25,8 @@ class PostsController extends Controller
 
     public function store()
     {
-        $attributes = new ArticleValidate(request(), true);
+        $validateRes = new FormRequest();
+        $validateRes->validateCreate(request());
 
         Article::create([
             'slug' => request('slug'),
@@ -46,7 +47,8 @@ class PostsController extends Controller
 
     public function update(Article $article)
     {
-        $attributes = new ArticleValidate(request(), false);
+        $validateRes = new FormRequest();
+        $validateRes->validateEdit(request());
 
         $article->slug = request('slug');
         $article->title = request('title');
