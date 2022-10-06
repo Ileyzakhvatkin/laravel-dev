@@ -6,6 +6,7 @@
             <h2 class="blog-post-title">{{ $article->title }}</h2>
             <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
             <p>{{ $article->fulltext }}</p>
+            @include('layout.tags', ['tags' => $article->tags])
             <hr>
             <p><a href="/">Все статьи</a></p>
         </div>
