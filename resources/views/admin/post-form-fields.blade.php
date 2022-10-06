@@ -26,4 +26,4 @@
     />
     <label class="form-check-label" for="active">Опубликовано</label>
 </div>
-<button type="submit" class="btn btn-primary">Изменить</button>
+<button type="submit" class="btn btn-outline-primary">Изменить</button>
