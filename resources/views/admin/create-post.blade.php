@@ -5,30 +5,13 @@
         <div class="blog-post">
             <h2 class="blog-post-title">Страница добавления новой статьи</h2>
             @include('layout.errors')
-            <form class="my-5"  method="POST" action="/articles/create">
+            <form class="my-5 @if ( session('status') ) d-none @endif"  method="POST" action="/admin/article">
                 @csrf
-                <div class="mb-3">
-                    <label for="slug" class="form-label">Символьный код</label>
-                    <input type="text" class="form-control" id="slug" name="slug"  value="{{ old('slug') }}">
-                </div>
-                <div class="mb-3">
-                    <label for="title" class="form-label">Название статьи</label>
-                    <input type="text" class="form-control" id="title" name="title"  value="{{ old('title') }}">
-                </div>
-                <div class="mb-3">
-                    <label for="brief" class="form-label">Краткое описание статьи</label>
-                    <textarea class="form-control" id="brief" name="brief" rows="2">{{ old('brief') }}</textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="fulltext" class="form-label">Детальное описание</label>
-                    <textarea class="form-control" id="fulltext" name="fulltext" rows="4">{{ old('fulltext') }}</textarea>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="active" name="active" checked>
-                    <label class="form-check-label" for="active">Опубликовано</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
+                @include('admin.post-form-fields')
             </form>
+            <div class="alert alert-success my-3 @if ( ! session('status') ) d-none @endif" role="alert">
+                {{ session('status') }} <a href="/admin/article/create">Продолжить...</a>
+            </div>
         </div>
     </div>
 @endsection
