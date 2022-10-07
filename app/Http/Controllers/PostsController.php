@@ -29,17 +29,18 @@ class PostsController extends Controller
         $validateRes = new FormRequest();
         $validateRes->validateCreate(request());
 
-        $article = Article::create([
+        Article::create([
             'slug' => request('slug'),
             'title' => request('title'),
             'brief' => request('brief'),
             'fulltext' => request('fulltext'),
             'active' => (bool)request('active')
         ]);
+        $lastArticle = \App\Models\Article::latest()->first();
         $formTags = collect(explode(',', request('tags')));
         foreach ( $formTags as $tag ) {
             $tag = Tag::firstOrCreate(['name' => $tag]);
-            $article->tags()->detach($tag);
+            $lastArticle->tags()->attach($tag);
         }
 
         return redirect('/admin/article/create')->with('status', 'Статья успешно создана!');
