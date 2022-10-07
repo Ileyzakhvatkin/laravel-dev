@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Tag;
 use MyHelpers\FormRequest;
+use MyHelpers\TagsSynchronizer;
 
 class PostsController extends Controller
 {
@@ -36,7 +37,7 @@ class PostsController extends Controller
             'fulltext' => request('fulltext'),
             'active' => (bool)request('active')
         ]);
-        $lastArticle = \App\Models\Article::latest()->first();
+        $lastArticle = \App\Models\Article::where('slug', '=', request('slug'))->latest()->first();
         $formTags = collect(explode(',', request('tags')));
         foreach ( $formTags as $tag ) {
             $tag = Tag::firstOrCreate(['name' => $tag]);
@@ -64,29 +65,9 @@ class PostsController extends Controller
         $article->active = (bool)request('active');
         $article->save();
 
-        /* Первый вариант сортировки теов */
-        $articleTags = $article->tags->keyBy('name');
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        $tagsToAttach = $formTags->diffKeys($articleTags);
-        $tagsToDetach = $articleTags->diffKeys($formTags);
-        foreach ( $tagsToAttach as $tag ) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $article->tags()->attach($tag);
-        }
-        foreach ( $tagsToDetach as $tag ) {
-            $article->tags()->detach($tag);
-        }
-
-        /* Второй вариант обработки тегоы */
-//        $articleTags = $article->tags->keyBy('name');
-//        $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-//        $syncIds = $articleTags->intersectByKeys($formTags)->pluck('id')->toArray();
-//        $tagsToAttach = $formTags->diffKeys($articleTags);
-//        foreach ( $tagsToAttach as $tag ) {
-//            $tag = Tag::firstOrCreate(['name' => $tag]);
-//            $syncIds[] = $tag->id;
-//        }
-//        $article->tags()->sync($syncIds);
+        $tagsSynchronizer = new TagsSynchronizer();
+        $tagsSynchronizer->syncSecond($formTags, $article);
 
         return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');;
     }
