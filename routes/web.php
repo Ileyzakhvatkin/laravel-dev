@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/article/tegs/{teg}', 'App\Http\Controllers\TegsController@index');
+Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
 
 Route::resource('/admin/article', 'App\Http\Controllers\PostsController');
 Route::get('/', 'App\Http\Controllers\PostsController@index');

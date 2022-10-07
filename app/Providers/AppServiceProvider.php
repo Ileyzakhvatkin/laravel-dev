@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('layout.sidebar', function ($view) {
-            $view->with('tagsCloud', \App\Models\Tag::all());
+            $view->with('tagsCloud', \App\Models\Tag::tagsCloud());
         });
     }
 }
