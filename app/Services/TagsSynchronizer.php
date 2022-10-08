@@ -1,14 +1,14 @@
 <?php
 
-namespace MyHelpers;
+namespace App\Services;
 
 use App\Models\Tag;
-use App\Services\Collection;
-use App\Services\Model;
+use Cassandra\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class TagsSynchronizer
 {
-    public function sync(Collection $tags, Model $model)
+    public function syncOne(Collection $tags, Model $model)
     {
         $modelTags = $model->tags->keyBy('name');
         $syncIds = $modelTags->intersectByKeys($tags)->pluck('id')->toArray();

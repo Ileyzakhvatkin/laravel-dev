@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Tag;
 use MyHelpers\FormRequest;
-use MyHelpers\TagsSynchronizer;
 
 class PostsController extends Controller
 {
@@ -66,15 +65,20 @@ class PostsController extends Controller
         $article->save();
 
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        $tagsSynchronizer = new TagsSynchronizer();
-        $tagsSynchronizer->syncSecond($formTags, $article);
 
-        return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');;
+        /* Подключение класса через сервис контейнер APP и автоматическое разрешение зависимости */
+        app()->bind('TagsSynchronizer', function () {
+            return new \App\Services\TagsSynchronizer();
+        });
+//        dd($formTags, $article);
+        app('TagsSynchronizer')->syncOne($formTags, $article);
+
+        return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
-        return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');;
+        return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');
     }
 }
