@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Tag;
+use App\Services\TagsSynchronizer;
 use MyHelpers\FormRequest;
 
 class PostsController extends Controller
@@ -11,6 +11,7 @@ class PostsController extends Controller
     public function index()
     {
         $articles = Article::with('tags')->where('active', '=', true)->latest()->get();
+
         return view('index', compact('articles'));
     }
 
@@ -24,24 +25,20 @@ class PostsController extends Controller
         return view('admin.create-post');
     }
 
-    public function store()
+    public function store(TagsSynchronizer $tSync)
     {
         $validateRes = new FormRequest();
         $validateRes->validateCreate(request());
 
-        Article::create([
+        $article = Article::create([
             'slug' => request('slug'),
             'title' => request('title'),
             'brief' => request('brief'),
             'fulltext' => request('fulltext'),
             'active' => (bool)request('active')
         ]);
-        $lastArticle = \App\Models\Article::where('slug', '=', request('slug'))->latest()->first();
         $formTags = collect(explode(',', request('tags')));
-        foreach ( $formTags as $tag ) {
-            $tag = Tag::firstOrCreate(['name' => $tag]);
-            $lastArticle->tags()->attach($tag);
-        }
+        $tSync->syncSecond($formTags, $article);
 
         return redirect('/admin/article/create')->with('status', 'Статья успешно создана!');
     }
@@ -49,10 +46,11 @@ class PostsController extends Controller
     public function edit(Article $article)
     {
         $success = false;
+
         return view('admin.edit-post', compact('article', 'success'));
     }
 
-    public function update(Article $article)
+    public function update(Article $article, TagsSynchronizer $tSync)
     {
         $validateRes = new FormRequest();
         $validateRes->validateEdit(request());
@@ -65,13 +63,7 @@ class PostsController extends Controller
         $article->save();
 
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-
-        /* Подключение класса через сервис контейнер APP и автоматическое разрешение зависимости */
-        app()->bind('TagsSynchronizer', function () {
-            return new \App\Services\TagsSynchronizer();
-        });
-//        dd($formTags, $article);
-        app('TagsSynchronizer')->syncOne($formTags, $article);
+        $tSync->syncSecond($formTags, $article);
 
         return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');
     }
@@ -79,6 +71,7 @@ class PostsController extends Controller
     public function destroy(Article $article)
     {
         $article->delete();
+
         return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');
     }
 }
