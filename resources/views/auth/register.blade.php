@@ -1,7 +1,7 @@
-@extends('layout.master')
+@extends('layout.master-note-sidebar')
 
 @section('content')
-<div class="col-md-8 blog-main">
+    <div class="col-md-12">
     <div class="card">
         <div class="card-header">{{ __('Register') }}</div>
 

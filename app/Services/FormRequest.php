@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Models\Article;
+use Illuminate\Http\Request;
 
 class FormRequest
 {
-    public function articleCreate($request)
+    public function articleCreate(Request $request)
     {
         $request->validate([
             'slug' => 'required|string|max:255|regex:/^[0-9a-z\-\_]+$/i|unique:articles,slug',
@@ -24,7 +25,7 @@ class FormRequest
         ];
     }
 
-    public function articleEdit(Article $article, $request)
+    public function articleEdit(Article $article, Request $request)
     {
         $request->validate([
             'slug' => 'required|string|max:255|regex:/^[0-9a-z\-\_]+$/i',
