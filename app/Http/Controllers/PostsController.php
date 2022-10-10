@@ -38,7 +38,7 @@ class PostsController extends Controller
             'active' => (bool)request('active')
         ]);
         $formTags = collect(explode(',', request('tags')));
-        $tSync->syncSecond($formTags, $article);
+        $tSync->sync($formTags, $article);
 
         return redirect('/admin/article/create')->with('status', 'Статья успешно создана!');
     }
@@ -63,7 +63,8 @@ class PostsController extends Controller
         $article->save();
 
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-        $tSync->syncSecond($formTags, $article);
+
+        $tSync->sync($formTags, $article);
 
         return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');
     }

@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Models\Tag;
-use Cassandra\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class TagsSynchronizer
 {
-    public function syncOne(Collection $tags, Model $model)
+    public function sync(Collection $tags, Model $model)
     {
         $modelTags = $model->tags->keyBy('name');
         $syncIds = $modelTags->intersectByKeys($tags)->pluck('id')->toArray();
@@ -20,7 +20,7 @@ class TagsSynchronizer
         $model->tags()->sync($syncIds);
     }
 
-    public function syncSecond($tags, $model)
+    public function syncSecond(Collection $tags, Model $model)
     {
         $articleTags = $model->tags->keyBy('name');
         $tagsToAttach = $tags->diffKeys($articleTags);
