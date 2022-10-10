@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Services\TagsSynchronizer;
-use MyHelpers\FormRequest;
+use App\Services\FormRequest;
 
 class PostsController extends Controller
 {
@@ -25,18 +25,9 @@ class PostsController extends Controller
         return view('admin.create-post');
     }
 
-    public function store(TagsSynchronizer $tSync)
+    public function store(FormRequest $formRequest, TagsSynchronizer $tSync)
     {
-        $validateRes = new FormRequest();
-        $validateRes->validateCreate(request());
-
-        $article = Article::create([
-            'slug' => request('slug'),
-            'title' => request('title'),
-            'brief' => request('brief'),
-            'fulltext' => request('fulltext'),
-            'active' => (bool)request('active')
-        ]);
+        $article = Article::create($formRequest->articleCreate(request()));
         $formTags = collect(explode(',', request('tags')));
         $tSync->sync($formTags, $article);
 
@@ -50,20 +41,10 @@ class PostsController extends Controller
         return view('admin.edit-post', compact('article', 'success'));
     }
 
-    public function update(Article $article, TagsSynchronizer $tSync)
+    public function update(Article $article, FormRequest $formRequest, TagsSynchronizer $tSync)
     {
-        $validateRes = new FormRequest();
-        $validateRes->validateEdit(request());
-
-        $article->slug = request('slug');
-        $article->title = request('title');
-        $article->brief = request('brief');
-        $article->fulltext = request('fulltext');
-        $article->active = (bool)request('active');
-        $article->save();
-
+        $formRequest->articleEdit($article, request());
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
-
         $tSync->sync($formTags, $article);
 
         return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');
