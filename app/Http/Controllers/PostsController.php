@@ -8,10 +8,15 @@ use App\Services\FormRequest;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('can:update,article', ['except' => ['index', 'show', 'store', 'create']]);
+    }
+
     public function index()
     {
-        $articles = Article::with('tags')->where('active', '=', true)->latest()->get();
-
+        $articles = Article::with('tags')->where('active', true)->latest()->get();
         return view('index', compact('articles'));
     }
 

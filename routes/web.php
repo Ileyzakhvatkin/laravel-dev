@@ -13,3 +13,7 @@ Route::get('/admin/feedback', 'App\Http\Controllers\MessagesController@feedback'
 Route::post('/contacts', 'App\Http\Controllers\MessagesController@store');
 Route::get('/contacts-success', 'App\Http\Controllers\MessagesController@success');
 Route::view('/about', 'pages.about');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
