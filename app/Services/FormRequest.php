@@ -18,10 +18,11 @@ class FormRequest
 
         return [
             'slug' => $request->slug,
+            'owner_id' => auth()->id(),
             'title' => $request->title,
             'brief' => $request->brief,
             'fulltext' => $request->brief,
-            'active' => (bool)$request->active
+            'active' => (bool)$request->active,
         ];
     }
 
@@ -35,6 +36,7 @@ class FormRequest
         ]);
 
         $article->slug = $request->slug;
+        $article->owner_id = auth()->id();
         $article->title = $request->title;
         $article->brief = $request->brief;
         $article->fulltext = $request->brief;

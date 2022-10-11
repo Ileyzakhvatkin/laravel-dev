@@ -13,14 +13,16 @@
                 <p>{{ $article->brief }}</p>
                 @include('layout.tags', ['tags' => $article->tags])
                 <p><a class="more" href="/article/{{ $article->slug }}">Подробнее...</a></p>
-                <div class="btn-group btn-group-sm">
-                    <a class="btn btn-outline-secondary me-2" href="/admin/article/{{ $article->slug }}/edit ">Edit</a>
-                    <form class="btn-group btn-group-sm" method="POST" action="/admin/article/{{ $article->slug }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger">Delete</button>
-                    </form>
-                </div>
+                @can('update', $article)
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-outline-secondary me-2" href="/admin/article/{{ $article->slug }}/edit ">Edit</a>
+                        <form class="btn-group btn-group-sm" method="POST" action="/admin/article/{{ $article->slug }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        </form>
+                    </div>
+                @endcan
             </div>
         @endforeach
 
