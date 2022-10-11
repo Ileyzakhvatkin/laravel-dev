@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use MyHelpers\FormRequest;
+use App\Services\TagsSynchronizer;
+use App\Services\FormRequest;
 
 class PostsController extends Controller
 {
     public function index()
     {
-        $articles = Article::where('active', '=', true)->latest()->get();
+        $articles = Article::with('tags')->where('active', '=', true)->latest()->get();
+
         return view('index', compact('articles'));
     }
 
@@ -23,18 +25,11 @@ class PostsController extends Controller
         return view('admin.create-post');
     }
 
-    public function store()
+    public function store(FormRequest $formRequest, TagsSynchronizer $tSync)
     {
-        $validateRes = new FormRequest();
-        $validateRes->validateCreate(request());
-
-        Article::create([
-            'slug' => request('slug'),
-            'title' => request('title'),
-            'brief' => request('brief'),
-            'fulltext' => request('fulltext'),
-            'active' => (bool)request('active'),
-        ]);
+        $article = Article::create($formRequest->articleCreate(request()));
+        $formTags = collect(explode(',', request('tags')));
+        $tSync->sync($formTags, $article);
 
         return redirect('/admin/article/create')->with('status', 'Статья успешно создана!');
     }
@@ -42,27 +37,23 @@ class PostsController extends Controller
     public function edit(Article $article)
     {
         $success = false;
+
         return view('admin.edit-post', compact('article', 'success'));
     }
 
-    public function update(Article $article)
+    public function update(Article $article, FormRequest $formRequest, TagsSynchronizer $tSync)
     {
-        $validateRes = new FormRequest();
-        $validateRes->validateEdit(request());
+        $formRequest->articleEdit($article, request());
+        $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        $tSync->sync($formTags, $article);
 
-        $article->slug = request('slug');
-        $article->title = request('title');
-        $article->brief = request('brief');
-        $article->fulltext = request('fulltext');
-        $article->active = (bool)request('active');
-        $article->save();
-
-        return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');;
+        return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
-        return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');;
+
+        return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');
     }
 }

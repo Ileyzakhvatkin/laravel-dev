@@ -16,6 +16,11 @@
     <label for="fulltext" class="form-label">Детальное описание</label>
     <textarea class="form-control" id="fulltext" name="fulltext" rows="4">@if( isset($article) ) {{ old('brief', $article->brief) }} @else {{ old('brief') }} @endif</textarea>
 </div>
+<div class="mb-3">
+    <label for="tags" class="form-label">Теги статьи</label>
+    <input type="text" class="form-control" id="tags" name="tags"
+           value="@if( isset($article) ) {{ old('title', $article->tags->pluck('name')->implode(',')) }} @else {{ old('tags') }} @endif" />
+</div>
 <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="active" name="active"
            @if( isset($article) )
@@ -26,4 +31,4 @@
     />
     <label class="form-check-label" for="active">Опубликовано</label>
 </div>
-<button type="submit" class="btn btn-primary">Изменить</button>
+<button type="submit" class="btn btn-outline-primary">Изменить</button>
