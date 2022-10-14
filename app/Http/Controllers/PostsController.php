@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ArticleCreated;
 use App\Models\Article;
+use App\Notifications\ArticleCreationCompleted;
+use App\Notifications\ArticleDeleteCompleted;
+use App\Notifications\ArticleUpdateCompleted;
 use App\Services\TagsSynchronizer;
 use App\Services\FormRequest;
 
@@ -17,6 +21,7 @@ class PostsController extends Controller
     public function index()
     {
         $articles = Article::with('tags')->where('active', true)->latest()->get();
+
         return view('index', compact('articles'));
     }
 
@@ -36,6 +41,8 @@ class PostsController extends Controller
         $formTags = collect(explode(',', request('tags')));
         $tSync->sync($formTags, $article);
 
+        $article->owner->notify(new ArticleCreationCompleted($article));
+
         return redirect('/admin/article/create')->with('status', 'Статья успешно создана!');
     }
 
@@ -52,12 +59,16 @@ class PostsController extends Controller
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
         $tSync->sync($formTags, $article);
 
+        $article->owner->notify(new ArticleUpdateCompleted($article));
+
         return redirect('/admin/article/' . request('slug') . '/edit')->with('status', 'Статья успешно изменена!');
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
+
+        $article->owner->notify(new ArticleDeleteCompleted($article));
 
         return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');
     }
