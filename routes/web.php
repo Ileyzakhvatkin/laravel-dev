@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Article;
 
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Barryvdh\Reflection\DocBlock\Type\Collection;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
