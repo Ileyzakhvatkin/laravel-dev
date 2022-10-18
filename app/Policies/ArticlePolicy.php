@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlePolicy
 {
@@ -19,6 +20,7 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article)
     {
-        return $article->owner_id === auth()->id();
+        return $article->owner_id === auth()->id() || User::with('role')->where('name', Auth::user()->name)->first()->role->first()->name === 'admin';
     }
+
 }

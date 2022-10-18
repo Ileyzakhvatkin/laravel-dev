@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Events\ArticleCreated;
 use App\Models\Article;
+use App\Models\User;
 use App\Notifications\ArticleCreationCompleted;
 use App\Notifications\ArticleDeleteCompleted;
 use App\Notifications\ArticleUpdateCompleted;
 use App\Services\TagsSynchronizer;
 use App\Services\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -20,7 +22,11 @@ class PostsController extends Controller
 
     public function index()
     {
-        $articles = Article::with('tags')->where('active', true)->latest()->get();
+        if ( Auth::user() !== null ) {
+            $articles = Article::with('tags')->latest()->get();
+        } else {
+            $articles = Article::with('tags')->where('active', true)->latest()->get();
+        }
 
         return view('index', compact('articles'));
     }

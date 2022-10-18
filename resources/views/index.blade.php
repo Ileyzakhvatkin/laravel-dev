@@ -6,10 +6,10 @@
         <div class="alert alert-danger my-3 @if ( ! session('status') ) d-none @endif" role="alert">
             {{ session('status') }}
         </div>
-        @foreach ( $articles as $article )
+        @forelse ( $articles as $article )
             <div class="blog-post">
                 <h3 class="blog-post-title">{{ $article->title }}</h3>
-                <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
+                <p class="blog-post-meta">@datatime($article->created_at)</p>
                 <p>{{ $article->brief }}</p>
                 @include('layout.tags', ['tags' => $article->tags])
                 <p><a class="more" href="/article/{{ $article->slug }}">Подробнее...</a></p>
@@ -24,7 +24,11 @@
                     </div>
                 @endcan
             </div>
-        @endforeach
+        @empty
+            <div class="blog-post">
+                На сайте не опубликовано ни одной статьи!
+            </div>
+        @endforelse
 
         <nav class="blog-pagination">
             <a class="btn btn-outline-primary" href="#">Older</a>
