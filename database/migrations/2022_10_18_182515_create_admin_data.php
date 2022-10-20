@@ -33,7 +33,7 @@ class CreateAdminData extends Migration
         DB::table('users')->insert(
             array(
                 'name' => 'admin',
-                'password' => '$2y$10$sgazZUVmuKCbAchXiHKXH.NVRqvPy7PGy4bk7iurRHC16B8wlbLlC',
+                'password' => Hash::make('admin'),
                 'email' => config('admin.ADMIN_EMAIL'),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
