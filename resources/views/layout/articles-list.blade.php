@@ -10,7 +10,7 @@
         <p><a class="more" href="/article/{{ $article->slug }}">Подробнее...</a></p>
         @canany(['update', 'admin'], $article)
             <div class="btn-group btn-group-sm">
-                <a class="btn btn-outline-secondary me-2" href="/admin/article/{{ $article->slug }}/edit ">Edit</a>
+                <a class="btn btn-outline-secondary me-2" href="/admin/article/{{ $article->slug }}/edit">Edit</a>
                 <form class="btn-group btn-group-sm" method="POST" action="/admin/article/{{ $article->slug }}">
                     @csrf
                     @method('DELETE')
@@ -21,7 +21,10 @@
     </div>
 @empty
     <div class="blog-post">
-        На сайте не опубликовано ни одной статьи!
+        На сайте не опубликовано ни одной статьи!<br>
+        @auth
+            <a class="btn btn-outline-secondary my-2" href="/admin/article/create">Создать</a>
+        @endauth
     </div>
 @endforelse
 
