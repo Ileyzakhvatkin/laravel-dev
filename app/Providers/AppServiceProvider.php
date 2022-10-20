@@ -30,13 +30,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         \Blade::directive('datatime', function ($value) {
+
             return "<?php echo ($value)->toFormattedDateString(); ?>";
         });
 
         \Blade::if('admin', function () {
-
             if ( Auth::user() !== null ) {
-                return User::with('role')->where('name', Auth::user()->name)->first()->role->first()->name === 'admin';
+
+                return User::isAdmin();
             }
         });
     }

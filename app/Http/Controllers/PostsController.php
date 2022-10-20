@@ -16,17 +16,23 @@ class PostsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
-        $this->middleware('can:update,article', ['except' => ['index', 'show', 'store', 'create']]);
+        $this->middleware('auth', ['except' => ['home', 'index', 'show']]);
+        $this->middleware('can:update,article', ['except' => ['home', 'index', 'show', 'store', 'create']]);
     }
 
     public function index()
     {
-        if ( Auth::user() !== null ) {
+        $articles = auth()->user()->articles()->with('tags')->latest()->get();
+        if ( Auth::user()->isAdmin() ) {
             $articles = Article::with('tags')->latest()->get();
-        } else {
-            $articles = Article::with('tags')->where('active', true)->latest()->get();
         }
+
+        return view('admin.articles', compact('articles'));
+    }
+
+    public function home()
+    {
+        $articles = Article::with('tags')->where('active', true)->latest()->get();
 
         return view('index', compact('articles'));
     }
@@ -76,6 +82,6 @@ class PostsController extends Controller
 
         $article->owner->notify(new ArticleDeleteCompleted($article));
 
-        return redirect('/')->with('status', 'Статья ' . $article->title . ' удалена(');
+        return redirect('/admin/article')->with('status', 'Статья ' . $article->title . ' удалена(');
     }
 }

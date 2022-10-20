@@ -20,7 +20,6 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article)
     {
-        return $article->owner_id === auth()->id() || User::with('role')->where('name', Auth::user()->name)->first()->role->first()->name === 'admin';
+        return $article->owner_id === auth()->id();
     }
-
 }

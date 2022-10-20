@@ -8,7 +8,9 @@
         @endauth
         @admin
             <a class="p-2 text-muted" href="/admin/feedback">Обращения</a>
-            <a class="p-2 text-muted" href="/admin/article">Все статьи</a>
         @endadmin
+        @auth
+            <a class="p-2 text-muted" href="/admin/article">Все статьи</a>
+        @endauth
     </nav>
 </div>
