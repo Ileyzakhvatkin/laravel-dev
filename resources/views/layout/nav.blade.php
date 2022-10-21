@@ -3,7 +3,14 @@
         <a class="p-2 text-muted" href="/">Главная</a>
         <a class="p-2 text-muted" href="/about">О нас</a>
         <a class="p-2 text-muted" href="/contacts">Контакты</a>
-        <a class="p-2 text-muted" href="/admin/article/create">Создать статью</a>
-        <a class="p-2 text-muted" href="/admin/feedback">Админ. раздел</a>
+        @auth
+            <a class="p-2 text-muted" href="/admin/article/create">Создать статью</a>
+        @endauth
+        @admin
+            <a class="p-2 text-muted" href="/admin/feedback">Обращения</a>
+        @endadmin
+        @auth
+            <a class="p-2 text-muted" href="/admin/article">Все мои статьи</a>
+        @endauth
     </nav>
 </div>

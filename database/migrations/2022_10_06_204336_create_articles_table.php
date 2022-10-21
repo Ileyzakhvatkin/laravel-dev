@@ -22,7 +22,6 @@ class CreateArticlesTable extends Migration
             $table->text('fulltext')->nullable();
             $table->boolean('active')->default(false);
             $table->timestamps();
-
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
