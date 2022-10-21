@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class CreateAdminData extends Migration
 {
@@ -35,6 +36,8 @@ class CreateAdminData extends Migration
                 'name' => 'admin',
                 'password' => Hash::make('admin'),
                 'email' => config('admin.ADMIN_EMAIL'),
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             )

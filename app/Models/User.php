@@ -59,7 +59,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return Auth::user()->roles->first()->name === 'admin';
+        return Auth::user()->roles()->first()->name === 'admin';
     }
-
 }
