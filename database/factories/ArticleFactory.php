@@ -14,7 +14,7 @@ class ArticleFactory extends Factory
      */
     public function definition()
     {
-        $days = rand(10,900);
+        $days = rand(1,60);
         return [
             'slug' => 'post-' . $this->faker->unique()->numberBetween(1,100),
             'title' => $this->faker->words(rand(3,7), true),

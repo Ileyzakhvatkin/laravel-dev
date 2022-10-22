@@ -43,8 +43,12 @@ class SendArtList extends Command
     public function handle()
     {
         $users = User::all();
-        $startData = Carbon::parse($this->argument('startData'));
-        $endData = Carbon::parse($this->argument('endData'));
+        $startData = $this->argument('startData')
+            ? Carbon::parse($this->argument('startData'))
+            : Carbon::now()->subDays(1000000);
+        $endData = $this->argument('endData')
+            ? Carbon::parse($this->argument('endData'))
+            : Carbon::now();
         $articles = Article::all()->filter(function ($article) use ($endData, $startData) {
             if ( $article->created_at >= $startData && $article->created_at <= $endData ) {
                 return $article;

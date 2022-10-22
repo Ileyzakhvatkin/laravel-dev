@@ -47,11 +47,9 @@ class SendArtList extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())->markdown('mail.article-list', [
-                    'articles' => $this->articles,
-                    'startData' => $this->startData,
-                    'endData' => $this->endData,
-                ])->subject('Список статей с сайта');
+        return (new MailMessage())
+            ->markdown('mail.article-list', ['articles' => $this->articles, 'startData' => $this->startData, 'endData' => $this->endData])
+            ->subject('Список статей с ' . $this->startData->toFormattedDateString() . ' по ' . $this->endData->toFormattedDateString());
     }
 
     /**
