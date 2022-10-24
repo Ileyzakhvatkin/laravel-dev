@@ -17,9 +17,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule
-            ->command('app:send_art_list'. Carbon::now()->subDays(7) . ' ' . Carbon::now())
+            ->command('app:send_art_list '. Carbon::now()->subDays(7)->toDateString() . ' ' . Carbon::now()->toDateString())
             ->timezone('Europe/Moscow')
-            ->weeklyOn(2, '12:00');
+            ->weeklyOn(1, '12:00');
     }
 
     /**
