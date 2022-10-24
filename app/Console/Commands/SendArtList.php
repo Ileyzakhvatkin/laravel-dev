@@ -45,7 +45,7 @@ class SendArtList extends Command
         $users = User::all();
         $startData = $this->argument('startData')
             ? Carbon::parse($this->argument('startData'))
-            : Carbon::now()->subDays(1000000);
+            : Carbon::now()->subDays(1000000)->toDateString();
         $endData = $this->argument('endData')
             ? Carbon::parse($this->argument('endData'))
             : Carbon::now();

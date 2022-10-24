@@ -17,9 +17,9 @@ class ArticleFactory extends Factory
         $days = rand(1,60);
         return [
             'slug' => 'post-' . $this->faker->unique()->numberBetween(1,100),
-            'title' => $this->faker->words(rand(3,7), true),
-            'brief' => $this->faker->words(rand(10,20), true),
-            'fulltext' => $this->faker->words(rand(30,50), true),
+            'title' => $this->faker->realText(rand(30,60)),
+            'brief' => $this->faker->realText(rand(180,260)),
+            'fulltext' => $this->faker->realText(rand(180,260)),
             'active' => $this->faker->numberBetween(0,1),
             'owner_id' => 1,
             'created_at' => Carbon::now()->subDays($days),
