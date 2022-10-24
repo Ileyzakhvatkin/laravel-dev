@@ -5,9 +5,7 @@
         <div class="blog-post">
             <h2 class="blog-post-title">Отправка Push уведомлений</h2>
             @include('layout.errors')
-            <div class="alert alert-success my-3 @if ( ! session('status') ) d-none @endif" role="alert">
-                {{ session('status') }}
-            </div>
+            @include('layout.flash')
             <form class="my-5" method="POST" action="/admin/service">
                 @csrf
                 <div class="mb-3">
@@ -19,7 +17,7 @@
                     <textarea class="form-control" id="inputText" name="text" rows="3" value="{{ old('text') }}" ></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Отправить</button>
+                <button type="submit" class="btn btn-outline-primary">Отправить</button>
             </form>
         </div>
     </div>

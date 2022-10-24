@@ -21,6 +21,8 @@ class PushServiceController extends Controller
 
         $pushall->send($data['title'], $data['text']);
 
-        return redirect('/admin/service')->with('status', 'Сообщение успешно отправлено!');
+        flash('Push уведомление отправлено!', 'success');
+
+        return redirect('/admin/service');
     }
 }

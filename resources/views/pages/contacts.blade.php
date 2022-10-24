@@ -16,7 +16,7 @@
                     <textarea class="form-control" id="inputMessage" name="message" rows="3" value="{{ old('message') }}" ></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Отправить</button>
+                <button type="submit" class="btn btn-outline-primary">Отправить</button>
             </form>
         </div>
     </div>
