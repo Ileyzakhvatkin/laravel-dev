@@ -18,7 +18,7 @@ class ArticleFactory extends Factory
         return [
             'slug' => 'post-' . $this->faker->unique()->numberBetween(1,100),
             'title' => $this->faker->realText(rand(30,60)),
-            'brief' => $this->faker->realText(rand(180,250)),
+            'brief' => $this->faker->realText(rand(180,255)),
             'fulltext' => $this->faker->realText(rand(180,260)),
             'active' => $this->faker->numberBetween(0,1),
             'owner_id' => 1,
