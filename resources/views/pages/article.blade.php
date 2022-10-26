@@ -8,6 +8,10 @@
             <p>{{ $article->fulltext }}</p>
             @include('layout.tags', ['tags' => $article->tags])
             <hr>
+            @include('layout.comments-list', ['comments' => $article->comments])
+            <hr>
+            @include('layout.comments-form')
+            <hr>
             <p><a href="/">Все статьи</a></p>
         </div>
     </div>

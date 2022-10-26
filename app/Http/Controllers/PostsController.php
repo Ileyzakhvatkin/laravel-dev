@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\ArticleCreationCompleted;
 use App\Notifications\ArticleDeleteCompleted;
 use App\Notifications\ArticleUpdateCompleted;
+use App\Services\Pushall;
 use App\Services\TagsSynchronizer;
 use App\Services\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -47,13 +48,15 @@ class PostsController extends Controller
         return view('admin.create-post');
     }
 
-    public function store(FormRequest $formRequest, TagsSynchronizer $tSync)
+    public function store(FormRequest $formRequest, TagsSynchronizer $tSync, Pushall $pushall)
     {
         $article = Article::create($formRequest->articleCreate(request()));
         $formTags = collect(explode(',', request('tags')));
         $tSync->sync($formTags, $article);
 
         $article->owner->notify(new ArticleCreationCompleted($article));
+
+        push_all('Создана новая статья - ' . $article->title, $article->brief);
 
         return redirect('/admin/article/create')->with('status', 'Статья успешно создана!');
     }

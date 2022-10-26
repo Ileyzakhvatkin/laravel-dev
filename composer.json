@@ -12,7 +12,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+      "ext-curl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
@@ -24,6 +25,7 @@
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
+        "files": [ "app/helpers.php" ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
