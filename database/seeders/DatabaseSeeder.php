@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Article;
+use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
                 Article::factory(rand(10,12))->create([ 'owner_id' => $user ])
                     ->each(function (Article $article) {
                         $article->tags()->saveMany(Tag::all()->random(rand(2,5)));
+                        $article->comments()->saveMany(Comment::factory(rand(2,3))->make(['article_id' => '']));
                     });
             });
     }
