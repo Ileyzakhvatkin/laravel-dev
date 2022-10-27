@@ -2,12 +2,14 @@
     <nav class="nav d-flex justify-content-between">
         <a class="p-2 text-muted" href="/">Главная</a>
         <a class="p-2 text-muted" href="/about">О нас</a>
+        <a class="p-2 text-muted" href="/news">Новости</a>
         <a class="p-2 text-muted" href="/contacts">Контакты</a>
         @auth
             <a class="p-2 text-muted" href="/admin/article/create">Создать статью</a>
         @endauth
         @admin
             <a class="p-2 text-muted" href="/admin/feedback">Обращения</a>
+            <a class="p-2 text-muted" href="/admin/news">Создать новость</a>
             <a class="p-2 text-muted" href="/admin/service">Уведомления</a>
         @endadmin
         @auth

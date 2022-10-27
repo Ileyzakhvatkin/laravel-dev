@@ -8,7 +8,9 @@ use App\Models\Article;
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
 
 Route::resource('/admin/article', 'App\Http\Controllers\PostsController');
+Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
 Route::get('/', 'App\Http\Controllers\PostsController@home');
+Route::get('/news', 'App\Http\Controllers\NewsController@home');
 Route::get('/article/{article}', 'App\Http\Controllers\PostsController@show');
 
 Route::get('/contacts', 'App\Http\Controllers\MessagesController@contacts');
