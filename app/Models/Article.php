@@ -3,6 +3,7 @@
 namespace App\Models;
 
 //use Barryvdh\Reflection\DocBlock\Type\Collection;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

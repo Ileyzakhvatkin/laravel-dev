@@ -9,8 +9,7 @@
             @include('layout.tags', ['tags' => $article->tags])
             <hr>
             @include('layout.comments-list', ['comments' => $article->comments])
-            <hr>
-            @include('layout.comments-form')
+            @include('layout.comments-form', ['slug' => $article->slug])
             <hr>
             <p><a href="/">Все статьи</a></p>
         </div>
