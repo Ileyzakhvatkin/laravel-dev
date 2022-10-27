@@ -23,10 +23,10 @@ class PostsController extends Controller
 
     public function index()
     {
-        $articles = auth()->user()->articles()->with('tags')->latest()->get();
-
         if ( Auth::user()->isAdmin() ) {
             $articles = Article::with('tags')->latest()->get();
+        } else {
+            $articles = auth()->user()->articles()->with('tags')->latest()->get();
         }
 
         return view('admin.articles', compact('articles'));

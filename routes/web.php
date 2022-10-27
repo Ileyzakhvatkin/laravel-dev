@@ -20,6 +20,6 @@ Route::view('/about', 'pages.about');
 Route::get('/admin/service', 'App\Http\Controllers\PushServiceController@form');
 Route::post('/admin/service', 'App\Http\Controllers\PushServiceController@send');
 
-//Route::post('/article/{article}', 'App\Http\Controllers\PostCommentsContriller@store');
+Route::post('/article/{article}', 'App\Http\Controllers\PostCommentsContriller@store');
 
 Auth::routes();
