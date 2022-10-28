@@ -23,10 +23,11 @@ class ArticleController extends Controller
 
     public function index()
     {
+        dd(Article::with('tags'));
         if ( Auth::user()->isAdmin() ) {
             $posts = Article::with('tags')->latest()->get();
         } else {
-            $posts = auth()->user()->articles()->with('tags')->latest()->get();
+            $posts = Auth::user()->articles()->with('tags')->latest()->get();
         }
 
         return view('admin.posts', [
