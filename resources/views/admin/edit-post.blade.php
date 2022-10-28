@@ -13,6 +13,9 @@
                 @method('PATCH')
                 @include('admin.post-form-fields')
             </form>
+
+            @include('layout.article-history', ['article' => $article])
+
         </div>
     </div>
 @endsection

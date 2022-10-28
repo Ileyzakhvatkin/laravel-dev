@@ -16,7 +16,10 @@ Route::get('/admin/feedback', 'App\Http\Controllers\MessagesController@feedback'
 Route::post('/contacts', 'App\Http\Controllers\MessagesController@store');
 Route::get('/contacts-success', 'App\Http\Controllers\MessagesController@success');
 Route::view('/about', 'pages.about');
+
 Route::get('/admin/service', 'App\Http\Controllers\PushServiceController@form');
 Route::post('/admin/service', 'App\Http\Controllers\PushServiceController@send');
+
+Route::post('/article/{article}', 'App\Http\Controllers\PostCommentsContriller@store');
 
 Auth::routes();
