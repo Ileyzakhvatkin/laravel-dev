@@ -9,7 +9,7 @@ class TagsController extends Controller
 {
     public function index(Tag $tag)
     {
-        $posts = $tag->articles()->with('tags')->latest()->get();
+        $posts = $tag->articles()->with('tags')->latest()->simplePaginate(10);
 
         return view('index', [
             'posts' => $posts,
