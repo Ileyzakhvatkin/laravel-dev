@@ -27,6 +27,6 @@ Route::get('/admin/statistics', 'App\Http\Controllers\StatisticsController@index
 Route::get('/admin/service', 'App\Http\Controllers\PushServiceController@form');
 Route::post('/admin/service', 'App\Http\Controllers\PushServiceController@send');
 
-Route::post('/article/{article}', 'App\Http\Controllers\PostCommentsContriller@store');
+Route::post('/article/{article}', 'App\Http\Controllers\ArticleCommentsController@store');
 
 Auth::routes();

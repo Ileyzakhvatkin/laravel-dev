@@ -18,7 +18,7 @@ class ArticlePolicy
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(Article $article)
+    public function update(User $user, Article $article)
     {
         return $article->owner_id === auth()->id();
     }
