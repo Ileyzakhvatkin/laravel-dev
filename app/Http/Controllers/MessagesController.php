@@ -26,12 +26,8 @@ class MessagesController extends Controller
         ]);
 
         Message::create(request()->all());
+        flash('Ваше сообщение успешно отправлено!', 'success');
 
-        return redirect('/contacts-success');
-    }
-
-    public function success()
-    {
-        return view('pages.contacts-success');
+        return redirect('/contacts');
     }
 }

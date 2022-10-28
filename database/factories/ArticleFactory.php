@@ -16,7 +16,7 @@ class ArticleFactory extends Factory
     {
         $days = rand(1,60);
         return [
-            'slug' => 'post-' . $this->faker->unique()->numberBetween(1,100),
+            'slug' => 'article-' . $this->faker->unique()->numberBetween(1,100),
             'title' => $this->faker->realText(rand(30,60)),
             'brief' => $this->faker->realText(rand(180,255)),
             'fulltext' => $this->faker->realText(rand(180,260)),

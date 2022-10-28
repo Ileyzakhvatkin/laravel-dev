@@ -9,6 +9,8 @@ class News extends Model
 {
     use HasFactory;
 
+    public $fillable = ['slug', 'owner_id', 'title', 'brief', 'fulltext', 'active'];
+
     public function getRouteKeyName()
     {
         return 'slug';

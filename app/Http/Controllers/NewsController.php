@@ -3,90 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Services\FormRequest;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $posts = News::where('active', true)->latest()->get();
+
+        return view('index', [
+            'posts' => $posts,
+            'page_title' => 'Новости портала',
+            'cat_slug' => 'news',
+            'empty_post' => 'На сайте не опубликовано ни одной новости!',
+        ]);
     }
 
-    public function home()
-    {
-        $articles = News::where('active', true)->latest()->get();
-
-        return view('index', compact('articles'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
     public function show(News $news)
     {
-        //
+        return view('pages.post', [
+            'post' => $news,
+            'return_url' => '/news',
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
+    public function create()
+    {
+        return view('admin.create-post', [
+            'page_title' => 'Страница добавления новой новости',
+            'cat_slug' => 'news',
+        ]);
+    }
+
+    public function store(FormRequest $formRequest)
+    {
+        News::create($formRequest->postCreate(request()));
+        flash('Новость успешно создана!', 'success');
+
+        return redirect('/admin/news/create');
+    }
+
     public function edit(News $news)
     {
-        //
+        return view('admin.edit-post', [
+            'post' => $news,
+            'page_title' => 'Страница редактирования новости',
+            'cat_slug' => 'news',
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, News $news)
+    public function update(News $news, FormRequest $formRequest)
     {
-        //
+        $formRequest->postEdit($news, request());
+        flash('Новость успешно изменена!', 'success');
+
+        return redirect('/admin/news/' . request('slug') . '/edit');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(News $news)
     {
-        //
+        $news->delete();
+        flash('Новость "' . $news->title . '" удалена.', 'success');
+
+        return redirect('/news');
     }
 }

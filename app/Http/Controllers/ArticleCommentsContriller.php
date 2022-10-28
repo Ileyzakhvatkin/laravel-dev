@@ -7,7 +7,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PostCommentsContriller extends Controller
+class ArticleCommentsContriller extends Controller
 {
     public function store(Article $article)
     {

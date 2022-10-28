@@ -21,6 +21,7 @@ class NewsFactory extends Factory
             'brief' => $this->faker->realText(rand(180,255)),
             'fulltext' => $this->faker->realText(rand(180,260)),
             'active' => $this->faker->numberBetween(0,1),
+            'owner_id' => 1,
             'created_at' => Carbon::now()->subDays($days),
             'updated_at' => Carbon::now()->subDays($days - rand(0,9)),
         ];

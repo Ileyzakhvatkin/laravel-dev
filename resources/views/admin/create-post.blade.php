@@ -3,16 +3,13 @@
 @section('content')
     <div class="col-md-8 blog-main">
         <div class="blog-post">
-            <h2 class="blog-post-title">Страница добавления новой статьи</h2>
+            <h2 class="blog-post-title">{{ $page_title }}</h2>
             @include('layout.errors')
-            <div class="alert alert-success my-3 @if ( ! session('status') ) d-none @endif" role="alert">
-                {{ session('status') }} <a href="/admin/article/create">Продолжить...</a>
-            </div>
-            <form class="my-5 @if ( session('status') ) d-none @endif"  method="POST" action="/admin/article">
+            @include('layout.flash')
+            <form class="my-5 @if ( session('status') ) d-none @endif"  method="POST" action="/admin/{{ $cat_slug }}">
                 @csrf
                 @include('admin.post-form-fields')
             </form>
-
         </div>
     </div>
 @endsection
