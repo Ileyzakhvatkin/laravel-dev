@@ -23,11 +23,10 @@ class ArticleController extends Controller
 
     public function index()
     {
-        dd(Article::with('tags'));
         if ( Auth::user()->isAdmin() ) {
-            $posts = Article::with('tags')->latest()->get();
+            $posts = Article::with('tags')->latest()->simplePaginate(20);
         } else {
-            $posts = Auth::user()->articles()->with('tags')->latest()->get();
+            $posts = Article::where('owner_id', auth()->id())->with('tags')->latest()->simplePaginate(20);
         }
 
         return view('admin.posts', [
@@ -40,7 +39,7 @@ class ArticleController extends Controller
 
     public function home()
     {
-        $posts = Article::with('tags')->where('active', true)->latest()->get();
+        $posts = Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
 
         return view('index', [
             'posts' => $posts,

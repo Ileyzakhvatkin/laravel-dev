@@ -8,6 +8,7 @@ class StatisticsController extends Controller
 {
     public function index()
     {
+        abort_if(! \Auth::user()->isAdmin(),403);
         $statisticsData = [
             'Общее количество статей' => 10,
             'Общее количество новостей' => 10,

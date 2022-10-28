@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:create,news', ['except' => ['index', 'show']]);
+    }
+
     public function index()
     {
-        $posts = News::where('active', true)->latest()->get();
+        $posts = News::where('active', true)->latest()->simplePaginate(10);
 
         return view('index', [
             'posts' => $posts,

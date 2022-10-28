@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Tag::factory(rand(8,15))->create();
-        User::factory(rand(2,3))->create()
+        User::factory(rand(2,5))->create()
             ->each(function (User $user) {
                 $user->roles()->attach(2);
-                Article::factory(rand(10,12))->create([ 'owner_id' => $user ])
+                Article::factory(rand(15,25))->create([ 'owner_id' => $user ])
                     ->each(function (Article $article) {
                         $article->tags()->saveMany(Tag::all()->random(rand(2,5)));
                         $article->comments()->saveMany(Comment::factory(rand(2,3))
@@ -31,6 +31,6 @@ class DatabaseSeeder extends Seeder
                             ]));
                     });
             });
-        News::factory(rand(8,15))->create();
+        News::factory(rand(30,45))->create();
     }
 }
