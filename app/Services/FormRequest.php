@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class FormRequest
 {
-    public function articleCreate(Request $request)
+    public function postCreate(Request $request)
     {
         $request->validate([
             'slug' => 'required|string|max:255|regex:/^[0-9a-z\-\_]+$/i|unique:articles,slug',
@@ -26,7 +26,7 @@ class FormRequest
         ];
     }
 
-    public function articleEdit(Article $article, Request $request)
+    public function postEdit($post, Request $request)
     {
         $request->validate([
             'slug' => 'required|string|max:255|regex:/^[0-9a-z\-\_]+$/i',
@@ -35,12 +35,12 @@ class FormRequest
             'fulltext' => 'required',
         ]);
 
-        $article->slug = $request->slug;
-        $article->owner_id = auth()->id();
-        $article->title = $request->title;
-        $article->brief = $request->brief;
-        $article->fulltext = $request->brief;
-        $article->active = (bool)$request->active;
-        $article->save();
+        $post->slug = $request->slug;
+        $post->owner_id = auth()->id();
+        $post->title = $request->title;
+        $post->brief = $request->brief;
+        $post->fulltext = $request->brief;
+        $post->active = (bool)$request->active;
+        $post->save();
     }
 }

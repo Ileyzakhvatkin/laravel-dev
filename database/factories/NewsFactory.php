@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class ArticleFactory extends Factory
+class NewsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,7 +16,7 @@ class ArticleFactory extends Factory
     {
         $days = rand(1,60);
         return [
-            'slug' => 'article-' . $this->faker->unique()->numberBetween(1,1000),
+            'slug' => 'news-' . $this->faker->unique()->numberBetween(1,1000),
             'title' => $this->faker->realText(rand(30,60)),
             'brief' => $this->faker->realText(rand(180,255)),
             'fulltext' => $this->faker->realText(rand(180,260)),

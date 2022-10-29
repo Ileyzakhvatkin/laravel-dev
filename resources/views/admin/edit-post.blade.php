@@ -3,19 +3,17 @@
 @section('content')
     <div class="col-md-8 blog-main">
         <div class="blog-post">
-            <h2 class="blog-post-title">Страница редактирования статьи</h2>
+            <h2 class="blog-post-title">{{ $page_title }}</h2>
             @include('layout.errors')
-            <div class="alert alert-success my-3 @if ( ! session('status') ) d-none @endif" role="alert">
-                {{ session('status') }}
-            </div>
-            <form class="my-5"  method="POST" action="/admin/article/{{ $article->slug }}">
+            @include('layout.flash')
+            <form class="my-5" method="POST" action="/admin/{{ $cat_slug }}/{{ $post->slug }}">
                 @csrf
                 @method('PATCH')
                 @include('admin.post-form-fields')
             </form>
-
-            @include('layout.article-history', ['article' => $article])
-
+            @if( isset($post) && $post instanceof \App\Models\Article )
+                @include('layout.post-history', ['post' => $post])
+            @endif
         </div>
     </div>
 @endsection
