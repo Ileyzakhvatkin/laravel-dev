@@ -8,7 +8,13 @@
                 @foreach($statisticsData as $key => $item)
                     <tr>
                         <td>{{ $key }}</td>
-                        <td>{{ $item }}</td>
+                        <td>
+                            @if( is_object($item) )
+                                <a href="/article/{{ $item->slug }}" target="_blank">{{ $item->title }}</a> ({{ $item->item_count }})
+                            @else
+                                {{ $item }}
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </table>
