@@ -21,7 +21,7 @@ class FormRequest
             'owner_id' => auth()->id(),
             'title' => $request->title,
             'brief' => $request->brief,
-            'fulltext' => $request->brief,
+            'fulltext' => $request->fulltext,
             'active' => (bool)$request->active,
         ];
     }

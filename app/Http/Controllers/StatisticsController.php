@@ -54,8 +54,8 @@ class StatisticsController extends Controller
                 ? $bestArticles->last()->title . ' (символов - ' . $bestArticles->last()->text_length . ')'
                 : 'нет опубликованных статей',
             'Средние количество статей у активных пользователей' => $average->count() > 0 ?  $average->average() : 'нет опубликованных статей',
-            'Самая непостоянная' => $history->count() > 0 ? $history->first()->title . ' (' . $history->first()->articles_histories_count . ' - изменений)' : 'нет изменений',
-            'Самая обсуждаемая статья ' => $comments->count() > 0 ? $comments->first()->title . ' (' . $comments->first()->articles_comments_count . ' - коментариев)': 'нет коментариев',
+            'Самая непостоянная' => $history->count() > 0 ? $history->first()->title . ' (изменений - ' . $history->first()->articles_histories_count . ')' : 'нет изменений',
+            'Самая обсуждаемая статья ' => $comments->count() > 0 ? $comments->first()->title . ' (коментариев - ' . $comments->first()->articles_comments_count . ')': 'нет коментариев',
         ];
 
         return view('admin.statistics', compact('statisticsData'));
