@@ -39,7 +39,7 @@ class FormRequest
         $post->owner_id = auth()->id();
         $post->title = $request->title;
         $post->brief = $request->brief;
-        $post->fulltext = $request->brief;
+        $post->fulltext = $request->fulltext;
         $post->active = (bool)$request->active;
         $post->save();
     }

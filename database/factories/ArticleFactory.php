@@ -19,7 +19,7 @@ class ArticleFactory extends Factory
             'slug' => 'article-' . $this->faker->unique()->numberBetween(1,1000),
             'title' => $this->faker->realText(rand(30,60)),
             'brief' => $this->faker->realText(rand(180,255)),
-            'fulltext' => $this->faker->realText(rand(180,260)),
+            'fulltext' => $this->faker->realText(rand(80,560)),
             'active' => $this->faker->numberBetween(0,1),
             'owner_id' => 1,
             'created_at' => Carbon::now()->subDays($days),

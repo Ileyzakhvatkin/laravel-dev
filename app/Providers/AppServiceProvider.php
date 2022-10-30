@@ -42,6 +42,10 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+//        \DB::listen(function ($query) {
+//            dd($query);
+//        });
+
         Paginator::defaultSimpleView('pagination::simple-default');
     }
 }

@@ -14,7 +14,7 @@
 </div>
 <div class="mb-3">
     <label for="fulltext" class="form-label">Детальное описание</label>
-    <textarea class="form-control" id="fulltext" name="fulltext" rows="4">@if( isset($post) ) {{ old('brief', $post->brief) }} @else {{ old('brief') }} @endif</textarea>
+    <textarea class="form-control" id="fulltext" name="fulltext" rows="4">@if( isset($post) ) {{ old('fulltext', $post->fulltext) }} @else {{ old('fulltext') }} @endif</textarea>
 </div>
 @if( $cat_slug == 'article' )
     <div class="mb-3">
