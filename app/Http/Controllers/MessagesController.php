@@ -22,7 +22,7 @@ class MessagesController extends Controller
     {
         $this->validate(request(), [
             'mail' => 'required|email',
-            'message' => 'required',
+            'message' => 'required|max:255',
         ]);
 
         Message::create(request()->all());
