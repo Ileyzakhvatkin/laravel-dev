@@ -23,4 +23,4 @@
     </div>
 @endforelse
 
-{{ $posts->links() }}
+

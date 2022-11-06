@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Services\FormRequest;
+use App\Services\TagsSynchronizer;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -41,9 +42,12 @@ class NewsController extends Controller
         ]);
     }
 
-    public function store(FormRequest $formRequest)
+    public function store(FormRequest $formRequest, TagsSynchronizer $tSync)
     {
-        News::create($formRequest->postCreate(request()));
+        $news = News::create($formRequest->postCreate(request()));
+        $formTags = collect(explode(',', request('tags')));
+        $tSync->sync($formTags, $news);
+
         flash('Новость успешно создана!', 'success');
 
         return redirect('/admin/news/create');
@@ -58,9 +62,11 @@ class NewsController extends Controller
         ]);
     }
 
-    public function update(News $news, FormRequest $formRequest)
+    public function update(News $news, FormRequest $formRequest, TagsSynchronizer $tSync)
     {
         $formRequest->postEdit($news, request());
+        $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
+        $tSync->sync($formTags, $news);
         flash('Новость успешно изменена!', 'success');
 
         return redirect('/admin/news/' . request('slug') . '/edit');

@@ -16,4 +16,9 @@ class News extends Model
         return 'slug';
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
 }
