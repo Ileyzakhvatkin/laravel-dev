@@ -14,7 +14,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="inputMessage" class="form-label">Ваше сообщение</label>
-                    <textarea class="form-control" id="inputMessage" name="message" rows="3" value="{{ old('message') }}" ></textarea>
+                    <textarea class="form-control" id="inputMessage" name="message" rows="3" >{{ old('message') }}</textarea>
                 </div>
                 <button type="submit" class="btn btn-outline-primary">Отправить</button>
             </form>

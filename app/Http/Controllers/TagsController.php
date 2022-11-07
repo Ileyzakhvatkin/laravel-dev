@@ -9,12 +9,13 @@ class TagsController extends Controller
 {
     public function index(Tag $tag)
     {
-        $posts = $tag->articles()->with('tags')->latest()->simplePaginate(10);
+        $articles = $tag->articles()->with('tags')->latest()->get();
+        $news = $tag->news()->with('tags')->latest()->get();
 
-        return view('index', [
-            'posts' => $posts,
-            'page_title' => 'Публикации по тегу: "' . $tag->name . '"',
-            'cat_slug' => 'article',
+        return view('pages.tags', [
+            'articles' => $articles,
+            'news' => $news,
+            'page_tag' => '"' . $tag->name . '"',
         ]);
     }
 }

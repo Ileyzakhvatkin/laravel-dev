@@ -14,11 +14,11 @@
 </div>
 <div class="mb-3">
     <label for="fulltext" class="form-label">Детальное описание</label>
-    <textarea class="form-control" id="fulltext" name="fulltext" rows="4">@if( isset($post) ) {{ old('brief', $post->brief) }} @else {{ old('brief') }} @endif</textarea>
+    <textarea class="form-control" id="fulltext" name="fulltext" rows="4">@if( isset($post) ) {{ old('fulltext', $post->fulltext) }} @else {{ old('fulltext') }} @endif</textarea>
 </div>
-@if( $cat_slug == 'article' )
+@if( $cat_slug == 'article' || $cat_slug == 'news' )
     <div class="mb-3">
-        <label for="tags" class="form-label">Теги статьи</label>
+        <label for="tags" class="form-label">Теги</label>
         <input type="text" class="form-control" id="tags" name="tags"
                value="@if( isset($post) ) {{ old('title', $post->tags->pluck('name')->implode(',')) }} @else {{ old('tags') }} @endif" />
     </div>
@@ -33,4 +33,4 @@
     />
     <label class="form-check-label" for="active">Опубликовано</label>
 </div>
-<button type="submit" class="btn btn-outline-primary">Изменить</button>
+<button type="submit" class="btn btn-outline-primary">Сохранить</button>

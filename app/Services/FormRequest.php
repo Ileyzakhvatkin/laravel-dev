@@ -21,7 +21,7 @@ class FormRequest
             'owner_id' => auth()->id(),
             'title' => $request->title,
             'brief' => $request->brief,
-            'fulltext' => $request->brief,
+            'fulltext' => $request->fulltext,
             'active' => (bool)$request->active,
         ];
     }
@@ -39,7 +39,7 @@ class FormRequest
         $post->owner_id = auth()->id();
         $post->title = $request->title;
         $post->brief = $request->brief;
-        $post->fulltext = $request->brief;
+        $post->fulltext = $request->fulltext;
         $post->active = (bool)$request->active;
         $post->save();
     }
