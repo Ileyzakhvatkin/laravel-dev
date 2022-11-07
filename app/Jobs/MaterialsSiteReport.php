@@ -15,39 +15,17 @@ class MaterialsSiteReport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $reportData;
+    public $user;
+
+    public function __construct($reportData, $user)
     {
-        //
+        $this->reportData = $reportData;
+        $this->user = $user;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
-        $allTables = [
-            'news' => 'Новостей',
-            'articles' => 'Статей',
-            'comments'=> 'Комментариев',
-            'tags' => 'Тегов',
-            'users' => 'Пользователей',
-        ];
-        $reportData = [];
-        foreach ( $allTables as $key => $table ) {
-            if ( array_key_exists($key, \request()->all() ) ) {
-                $reportData[$table] = \DB::table($key)->count();
-            }
-        }
-
-        User::first()->notify(new ReportCompleted($reportData));
-
-        return $reportData;
+        $this->user->notify(new ReportCompleted($this->reportData));
     }
 }
