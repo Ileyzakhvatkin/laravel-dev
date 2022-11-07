@@ -17,9 +17,9 @@ class NewsPolicy
      * @param  \App\Models\News  $news
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(News $news)
+    public function update()
     {
-        return $news->owner_id === auth()->id();
+        return auth()->id() === 1;
     }
 
     public function create()

@@ -18,7 +18,7 @@ class Article extends Model
 
     protected $dispatchesEvents = [
         'created' => ArticleCreated::class,
-    ] ;
+    ];
 
     protected static function boot()
     {

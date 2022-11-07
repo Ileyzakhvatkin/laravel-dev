@@ -8,13 +8,15 @@ class ReportController extends Controller
 {
     public function form()
     {
-
+        abort_if(! \Auth::user()->isAdmin(),403);
 
         return view('admin.report');
     }
 
     public function report()
     {
+        abort_if(! \Auth::user()->isAdmin(),403);
+
         $allTables = [
             'news' => 'Новостей',
             'articles' => 'Статей',
@@ -28,6 +30,7 @@ class ReportController extends Controller
                 $reportData[$table] = \DB::table($key)->count();
             }
         }
+
         return redirect('/admin/report')->with('report', $reportData);
     }
 }

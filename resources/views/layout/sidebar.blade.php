@@ -23,13 +23,13 @@
                 <a class="p-2 text-muted" href="/admin/news/create">Создать новость</a>
             </li>
             <li class="nav-item">
-                <a class="p-2 text-muted" href="/admin/service">Уведомления</a>
+                <a class="p-2 text-muted" href="/admin/service">Push уведомления</a>
             </li>
             <li class="nav-item">
                 <a class="p-2 text-muted" href="/admin/statistics">Статистика</a>
             </li>
             <li class="nav-item">
-                <a class="p-2 text-muted" href="/admin/report">Отчет</a>
+                <a class="p-2 text-muted" href="/admin/report">Создать отчет</a>
             </li>
         </ul>
     </div>
