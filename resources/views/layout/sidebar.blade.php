@@ -28,6 +28,9 @@
             <li class="nav-item">
                 <a class="p-2 text-muted" href="/admin/statistics">Статистика</a>
             </li>
+            <li class="nav-item">
+                <a class="p-2 text-muted" href="/admin/report">Отчет</a>
+            </li>
         </ul>
     </div>
     @endadmin
