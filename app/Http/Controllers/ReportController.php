@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\MaterialsSiteReport;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -17,20 +18,6 @@ class ReportController extends Controller
     {
         abort_if(! \Auth::user()->isAdmin(),403);
 
-        $allTables = [
-            'news' => 'Новостей',
-            'articles' => 'Статей',
-            'comments'=> 'Комментариев',
-            'tags' => 'Тегов',
-            'users' => 'Пользователей',
-        ];
-        $reportData = [];
-        foreach ( $allTables as $key => $table ) {
-            if ( array_key_exists($key, \request()->all() ) ) {
-                $reportData[$table] = \DB::table($key)->count();
-            }
-        }
-
-        return redirect('/admin/report')->with('report', $reportData);
+        return redirect('/admin/report')->with('report', MaterialsSiteReport::dispatchNow());
     }
 }
