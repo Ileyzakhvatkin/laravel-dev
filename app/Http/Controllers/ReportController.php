@@ -19,21 +19,16 @@ class ReportController extends Controller
     {
         abort_if(! \Auth::user()->isAdmin(),403);
 
-        $allTables = [
-            'news' => 'Новостей',
-            'articles' => 'Статей',
-            'comments'=> 'Комментариев',
-            'tags' => 'Тегов',
-            'users' => 'Пользователей',
-        ];
+        MaterialsSiteReport::dispatchNow(Auth::user());
+        flash('Отчет будет отправлен Вам на e-mail', 'success');
+
+        $params = ['news', 'articles', 'comments', 'tags', 'users'];
         $reportData = [];
-        foreach ( $allTables as $key => $table ) {
-            if ( array_key_exists($key, \request()->all() ) ) {
-                $reportData[$table] = \DB::table($key)->count();
+        foreach ( $params as $param ) {
+            if ( array_key_exists($param, \request()->all()) ) {
+                $reportData[] = $param;
             }
         }
-
-        MaterialsSiteReport::dispatchNow($reportData, Auth::user());
 
         return redirect('/admin/report')->with('report', $reportData);
     }
