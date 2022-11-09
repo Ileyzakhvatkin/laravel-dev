@@ -7,6 +7,10 @@ use App\Models\Article;
 
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
 
+Route::get('test', function () {
+    event(new \App\Events\SomethingHappens('Мы настроили ws-соединение'));
+});
+
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');
 Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
 
