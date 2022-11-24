@@ -51,8 +51,12 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
+        $post = \Cache::tags(['articles'])->remember('articles_' . $article->id . '_show', 3600, function () use ($article) {
+            return $article;
+        });
+
         return view('pages.post', [
-            'post' => $article,
+            'post' => $post,
             'return_url' => '/',
         ]);
     }

@@ -30,8 +30,12 @@ class NewsController extends Controller
 
     public function show(News $news)
     {
+        $post = \Cache::tags(['news'])->remember('news_' . $news->id . '_show', 3600, function () use ($news) {
+            return $news;
+        });
+
         return view('pages.post', [
-            'post' => $news,
+            'post' => $post,
             'return_url' => '/news',
         ]);
     }
