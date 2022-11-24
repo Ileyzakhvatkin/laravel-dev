@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use http\Env\Request;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\ArticleCreated;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
+use App\Services\ArticlesCollection;
 
 class Article extends Model
 {
@@ -30,6 +28,18 @@ class Article extends Model
                 'before' => json_encode(Arr::only($article->fresh()->toArray(), array_keys($after)), JSON_UNESCAPED_UNICODE),
                 'after' => json_encode($after, JSON_UNESCAPED_UNICODE),
             ]);
+        });
+
+        static::created( function () {
+            \Cache::tags(['articles', 'statistics'])->flush();
+        });
+
+        static::updated( function () {
+            \Cache::tags(['articles', 'statistics'])->flush();
+        });
+
+        static::deleted( function () {
+            \Cache::tags(['articles', 'statistics'])->flush();
         });
     }
 
@@ -71,15 +81,6 @@ class Article extends Model
 
     public function newCollection(array $models = [])
     {
-        return new class($models) extends Collection {
-            public function allActive()
-            {
-                return $this->filter->isActive();
-            }
-            public function allNotActive()
-            {
-                return $this->filter->isNotActive();
-            }
-        };
+        return new ArticlesCollection($models);
     }
 }

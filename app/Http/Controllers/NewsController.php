@@ -16,7 +16,9 @@ class NewsController extends Controller
 
     public function index()
     {
-        $posts = News::where('active', true)->latest()->simplePaginate(10);
+        $posts = \Cache::tags(['news'])->remember('active_news', 3600, function () {
+            return News::where('active', true)->latest()->simplePaginate(10);
+        });
 
         return view('index', [
             'posts' => $posts,

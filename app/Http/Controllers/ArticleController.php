@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ArticleCreated;
 use App\Models\Article;
-use App\Models\User;
 use App\Notifications\ArticleCreationCompleted;
 use App\Notifications\ArticleDeleteCompleted;
 use App\Notifications\ArticleUpdateCompleted;
@@ -39,7 +37,9 @@ class ArticleController extends Controller
 
     public function home()
     {
-        $posts = Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
+        $posts = \Cache::tags(['articles'])->remember('active_articles', 3600, function () {
+           return Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
+        });
 
         return view('index', [
             'posts' => $posts,

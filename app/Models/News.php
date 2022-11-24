@@ -11,6 +11,23 @@ class News extends Model
 
     public $fillable = ['slug', 'owner_id', 'title', 'brief', 'fulltext', 'active'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created( function () {
+            \Cache::tags(['news', 'statistics'])->flush();
+        });
+
+        static::updated( function () {
+            \Cache::tags(['news', 'statistics'])->flush();
+        });
+
+        static::deleted( function () {
+            \Cache::tags(['news', 'statistics'])->flush();
+        });
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

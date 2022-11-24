@@ -9,8 +9,12 @@ class TagsController extends Controller
 {
     public function index(Tag $tag)
     {
-        $articles = $tag->articles()->with('tags')->latest()->get();
-        $news = $tag->news()->with('tags')->latest()->get();
+        $articles = \Cache::tags(['articles'])->remember('tag_articles', 3600, function () use ($tag)  {
+            return $tag->articles()->with('tags')->latest()->get();
+        });
+        $news = \Cache::tags(['news'])->remember('tag_news', 3600, function () use ($tag) {
+            return $tag->news()->with('tags')->latest()->get();
+        });
 
         return view('pages.tags', [
             'articles' => $articles,

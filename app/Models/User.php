@@ -47,6 +47,15 @@ class User extends Authenticatable
      * @var mixed
      */
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created( function () {
+            \Cache::tags(['statistics'])->flush();
+        });
+    }
+
     public function articles()
     {
         return $this->hasMany(Article::class);
