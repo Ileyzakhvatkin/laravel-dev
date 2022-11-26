@@ -31,15 +31,15 @@ class Article extends Model
         });
 
         static::created( function () {
-            \Cache::tags(['articles', 'statistics'])->flush();
+            \Cache::tags(['articles', 'articles_more'])->flush();
         });
 
         static::updated( function () {
-            \Cache::tags(['articles', 'statistics'])->flush();
+            \Cache::tags(['articles', 'articles_more'])->flush();
         });
 
         static::deleted( function () {
-            \Cache::tags(['articles', 'statistics'])->flush();
+            \Cache::tags(['articles', 'articles_more'])->flush();
         });
     }
 

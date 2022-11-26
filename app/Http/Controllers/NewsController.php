@@ -16,7 +16,8 @@ class NewsController extends Controller
 
     public function index()
     {
-        $posts = \Cache::tags(['news'])->remember('active_news', 3600, function () {
+        $paginator = isset(\request()->page) ? \request()->page : '1';
+        $posts = \Cache::tags(['news'])->remember('news_' . $paginator, 3600, function () {
             return News::where('active', true)->latest()->simplePaginate(10);
         });
 
@@ -30,13 +31,19 @@ class NewsController extends Controller
 
     public function show(News $news)
     {
-        $post = \Cache::tags(['news'])->remember('news_' . $news->id . '_show', 3600, function () use ($news) {
-            return $news;
+        return view('pages.post', [
+            'post' => $news,
+        ]);
+    }
+
+    public function more($news)
+    {
+        $post = \Cache::tags(['news'])->remember('news_more_' . $news, 3600, function () use ($news) {
+            return News::where('slug', $news)->with('tags')->first();
         });
 
         return view('pages.post', [
             'post' => $post,
-            'return_url' => '/news',
         ]);
     }
 

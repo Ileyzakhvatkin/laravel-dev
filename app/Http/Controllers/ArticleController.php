@@ -37,8 +37,10 @@ class ArticleController extends Controller
 
     public function home()
     {
-        $posts = \Cache::tags(['articles'])->remember('active_articles', 3600, function () {
-           return Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
+        $paginator = isset(\request()->page) ? \request()->page : '1';
+        $posts = \Cache::tags(['articles'])
+            ->remember('articles_page_' . $paginator, 3600, function () {
+            return Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
         });
 
         return view('index', [
@@ -51,13 +53,19 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
-        $post = \Cache::tags(['articles'])->remember('articles_' . $article->id . '_show', 3600, function () use ($article) {
-            return $article;
+        return view('pages.post', [
+            'post' => $article,
+        ]);
+    }
+
+    public function more($article)
+    {
+        $post = \Cache::tags(['articles_more'])->remember('articles_more_' . $article, 3600, function () use ($article) {
+            return Article::where('slug', $article)->with('tags')->with('comments')->first();
         });
 
         return view('pages.post', [
             'post' => $post,
-            'return_url' => '/',
         ]);
     }
 
@@ -69,7 +77,7 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function store(FormRequest $formRequest, TagsSynchronizer $tSync, Pushall $pushall)
+    public function store(FormRequest $formRequest, TagsSynchronizer $tSync)
     {
         $article = Article::create($formRequest->postCreate(request()));
         $formTags = collect(explode(',', request('tags')));

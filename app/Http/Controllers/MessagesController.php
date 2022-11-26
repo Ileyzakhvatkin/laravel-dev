@@ -27,7 +27,11 @@ class MessagesController extends Controller
             'message' => 'required|max:255',
         ]);
 
-        Message::create(request()->all());
+        Message::create([
+            'mail' => request()->mail,
+            'message' => request()->message,
+        ]);
+
         flash('Ваше сообщение успешно отправлено!', 'success');
 
         \Cache::tags(['messages'])->flush();

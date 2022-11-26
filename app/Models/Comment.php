@@ -18,7 +18,7 @@ class Comment extends Model
         parent::boot();
 
         static::created( function () {
-            \Cache::tags(['comments', 'statistics'])->flush();
+            \Cache::tags(['articles_more'])->flush();
         });
     }
 

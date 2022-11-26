@@ -11,7 +11,7 @@ class StatisticsController extends Controller
     {
         abort_if(! \Auth::user()->isAdmin(),403);
 
-        $statisticsData = \Cache::tags(['statistics'])->remember('statistics_data', 3600, function () {
+        $statisticsData = \Cache::tags(['articles', 'articles_more', 'news', 'news_more'])->remember('statistics_data', 3600, function () {
 
             $bestAuthors = \DB::table('users')
                 ->join('articles', 'users.id', '=', 'articles.owner_id')
