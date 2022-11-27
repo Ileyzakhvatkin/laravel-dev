@@ -58,7 +58,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   \******************************/
 /***/ (() => {
 
+// console.log('echo test');
 Echo.channel('hello-channel').listen('SomethingHappens', function (e) {
+  console.log('Ну работай уже');
   alert(e.whatHappens);
 });
 
@@ -70,7 +72,7 @@ Echo.channel('hello-channel').listen('SomethingHappens', function (e) {
   \******************************/
 /***/ (() => {
 
-console.log('привет!');
+// console.log('привет!');
 
 /***/ }),
 

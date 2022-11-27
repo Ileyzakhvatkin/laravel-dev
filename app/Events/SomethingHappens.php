@@ -25,4 +25,5 @@ class SomethingHappens implements ShouldBroadcast
     {
         return new Channel('hello-channel');
     }
+
 }
