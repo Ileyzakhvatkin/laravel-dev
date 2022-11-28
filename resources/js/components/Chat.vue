@@ -1,6 +1,6 @@
 <template>
     <div class="chat-prop">
-        <h3>Чет проекта</h3>
+        <h3>Чат проекта</h3>
         <div class="chat-messages">
             <p v-for="message in messages">{{ message }}</p>
         </div>
@@ -50,6 +50,9 @@
 
         mounted() {
             Echo.join('chat')
+                .here((users) => {
+                    this.addMessage('В чате  ' + users.length + ' участников');
+                })
                 .joining((user) => {
                     this.addMessage('Пользователь ' + user.name + ' присоединился');
                 })
