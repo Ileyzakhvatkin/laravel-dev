@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Example Component</div>
+                    <div class="card-header">{{ name }}</div>
 
                     <div class="card-body">
                         I'm an example component.
@@ -16,6 +16,11 @@
 
 <script>
     export default {
+        data() {
+            return {
+                name: 'Это Vue компонент'
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }

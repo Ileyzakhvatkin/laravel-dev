@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Models\Article;
+use App\Events\SomethingHappens;
+use App\Events\ChatMessage;
 
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
 
 Route::get('test', function () {
-    event(new \App\Events\SomethingHappens('Мы настроили ws-соединение!!!'));
+    event(new SomethingHappens('Мы настроили ws-соединение!!!'));
 });
 
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');
@@ -34,5 +34,9 @@ Route::get('/admin/report', 'App\Http\Controllers\ReportController@form');
 Route::post('/admin/report', 'App\Http\Controllers\ReportController@report');
 
 Route::post('/article/{article}', 'App\Http\Controllers\ArticleCommentsController@store');
+
+Route::post('/chat', function () {
+   broadcast(new ChatMessage(\request('message')));
+})->middleware('auth');
 
 Auth::routes();
