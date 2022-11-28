@@ -2,10 +2,10 @@
     <div class="chat-prop">
         <h3>Чет проекта</h3>
         <div class="chat-messages">
-            <p v-for="message in messages" :key="message" >{{ message }}</p>
+            <p v-for="message in messages">{{ message }}</p>
         </div>
-        <input type="text" name="massage" class="form-control" v-model="massage" placeholder="Сообщение...">
-        <button class="btn btn-outline-primary btn-sm" @click.prevent="sendMassage">Отправить</button>
+        <input type="text" name="message" class="form-control" v-model="message" placeholder="Сообщение...">
+        <button class="btn btn-outline-primary btn-sm" @click.prevent="sendMessage">Отправить</button>
     </div>
 </template>
 
@@ -49,10 +49,7 @@
         },
 
         mounted() {
-            Echo.private('chat')
-                .here((users) => {
-                    this.addMessage('В чате ' + users.length + ' участников');
-                })
+            Echo.join('chat')
                 .joining((user) => {
                     this.addMessage('Пользователь ' + user.name + ' присоединился');
                 })
@@ -65,8 +62,8 @@
         },
 
         methods: {
-            sendMassage() {
-                if (this.massage.length > 0 ) {
+            sendMessage() {
+                if (this.message.length > 0 ) {
                     axios.post('/chat', { message: this.message })
                             .then(() => {
                                 this.message = '';

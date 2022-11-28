@@ -27,6 +27,6 @@ class ChatMessage implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new PresenceChannel('chat', auth()->user());
+        return new PresenceChannel('chat');
     }
 }
