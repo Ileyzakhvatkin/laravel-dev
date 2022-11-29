@@ -16,15 +16,15 @@ class News extends Model
         parent::boot();
 
         static::created( function () {
-            \Cache::tags(['news', 'news_more'])->flush();
+            \Cache::tags(['news'])->flush();
         });
 
         static::updated( function () {
-            \Cache::tags(['news', 'news_more'])->flush();
+            \Cache::tags(['news'])->flush();
         });
 
         static::deleted( function () {
-            \Cache::tags(['news', 'news_more'])->flush();
+            \Cache::tags(['news'])->flush();
         });
     }
 

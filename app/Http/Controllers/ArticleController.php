@@ -9,6 +9,7 @@ use App\Notifications\ArticleUpdateCompleted;
 use App\Services\Pushall;
 use App\Services\TagsSynchronizer;
 use App\Services\FormRequest;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
@@ -39,8 +40,8 @@ class ArticleController extends Controller
     {
         $paginator = isset(\request()->page) ? \request()->page : '1';
         $posts = \Cache::tags(['articles'])
-            ->remember('articles_page_' . $paginator, 3600, function () {
-            return Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
+            ->remember('articles_page_' . $paginator, 3600, function () use ($paginator) {
+            return Article::with('tags')->where('active', true)->latest()->simplePaginate(10, '*', 'page', $paginator);
         });
 
         return view('index', [
@@ -60,8 +61,8 @@ class ArticleController extends Controller
 
     public function more($article)
     {
-        $post = \Cache::tags(['articles_more'])->remember('articles_more_' . $article, 3600, function () use ($article) {
-            return Article::where('slug', $article)->with('tags')->with('comments')->first();
+        $post = \Cache::tags(['articles', 'tags', 'comments'])->remember('more_' . $article, 3600, function () use ($article) {
+            return Article::where('slug', $article)->with(['tags', 'comments'])->first();
         });
 
         return view('pages.post', [

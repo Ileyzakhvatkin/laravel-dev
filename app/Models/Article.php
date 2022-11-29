@@ -31,15 +31,15 @@ class Article extends Model
         });
 
         static::created( function () {
-            \Cache::tags(['articles', 'articles_more'])->flush();
+            \Cache::tags(['articles'])->flush();
         });
 
         static::updated( function () {
-            \Cache::tags(['articles', 'articles_more'])->flush();
+            \Cache::tags(['articles'])->flush();
         });
 
         static::deleted( function () {
-            \Cache::tags(['articles', 'articles_more'])->flush();
+            \Cache::tags(['articles'])->flush();
         });
     }
 
@@ -77,6 +77,11 @@ class Article extends Model
     public function isNotActive()
     {
         return ! $this->isActive();
+    }
+
+    public function setLengthTextAttribute ()
+    {
+        return $this->attributes['length_text'] = mb_strlen($this->fulltext);
     }
 
     public function newCollection(array $models = [])
