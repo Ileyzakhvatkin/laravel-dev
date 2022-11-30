@@ -8,8 +8,8 @@
                 <tr>
                     <td>Общее количество статей</td>
                     <td>
-                        @if( $statisticsData['countArticles'] > 0 )
-                            {{ $statisticsData['countArticles'] }}
+                        @if( isset($statData['countArticles']) && $statData['countArticles'] > 0 )
+                            {{ $statData['countArticles'] }}
                         @else
                             на сайте нет статей
                         @endif
@@ -18,8 +18,8 @@
                 <tr>
                     <td>Общее количество новостей</td>
                     <td>
-                        @if( $statisticsData['countNews'] > 0 )
-                            {{ $statisticsData['countNews'] }}
+                        @if( isset($statData['countNews']) && $statData['countNews'] > 0 )
+                            {{ $statData['countNews'] }}
                         @else
                             на сайте нет новостей
                         @endif
@@ -28,8 +28,8 @@
                 <tr>
                     <td>ФИО автора, у которого больше всего статей на сайте</td>
                     <td>
-                        @if( is_object($statisticsData['bestAuthor']) )
-                            {{ $statisticsData['bestAuthor']->name }} (всего статей 000 )
+                        @if( is_object($statData['bestAuthor']) )
+                            {{ $statData['bestAuthor']->name }} (всего статей {{ $statData['bestAuthor']->articles_count }} )
                         @else
                             на сайте авторов со статьями
                         @endif
@@ -38,9 +38,9 @@
                 <tr>
                     <td>Самая длинная статья</td>
                     <td>
-                        @if( is_object($statisticsData['longestArticle']) )
-                            <a href="/article/{{ $statisticsData['longestArticle']->slug }}" target="_blank">{{ $statisticsData['longestArticle']->title }}</a>
-                            (символов - {{ mb_strlen($statisticsData['longestArticle']->fulltext) }})
+                        @if( is_object($statData['longestArticle']) )
+                            <a href="/article/{{ $statData['longestArticle']->slug }}" target="_blank">{{ $statData['longestArticle']->title }}</a>
+                            (символов - {{ mb_strlen($statData['longestArticle']->fulltext) }})
                         @else
                             на сайте нет статей
                         @endif
@@ -49,9 +49,9 @@
                 <tr>
                     <td>Самая короткая статья</td>
                     <td>
-                        @if( is_object($statisticsData['shortestArticle']) )
-                            <a href="/article/{{ $statisticsData['shortestArticle']->slug }}" target="_blank">{{ $statisticsData['shortestArticle']->title }}</a>
-                            (символов - {{ mb_strlen($statisticsData['shortestArticle']->fulltext) }})
+                        @if( is_object($statData['shortestArticle']) )
+                            <a href="/article/{{ $statData['shortestArticle']->slug }}" target="_blank">{{ $statData['shortestArticle']->title }}</a>
+                            (символов - {{ mb_strlen($statData['shortestArticle']->fulltext) }})
                         @else
                             на сайте нет статей
                         @endif
@@ -60,8 +60,8 @@
                 <tr>
                     <td>Средние количество статей у активных пользователей</td>
                     <td>
-                        @if( $statisticsData['averageArticle'] > 0 )
-                            {{ $statisticsData['averageArticle'] }}
+                        @if( isset($statData['averageArticle']) && $statData['averageArticle'] > 0 )
+                            {{ $statData['averageArticle'] }}
                         @else
                             на сайте нет статей
                         @endif
@@ -70,8 +70,8 @@
                 <tr>
                     <td>Самая непостоянная статья</td>
                     <td>
-                        @if( $statisticsData['historyArticle']->history_count > 0 )
-                            <a href="/article/{{ $statisticsData['historyArticle']->slug }}" target="_blank">{{ $statisticsData['historyArticle']->title }}</a>  (обновлений - {{ $statisticsData['historyArticle']->history_count }} )
+                        @if( isset($statData['historyArticle']) && $statData['historyArticle']->history_count > 0 )
+                            <a href="/article/{{ $statData['historyArticle']->slug }}" target="_blank">{{ $statData['historyArticle']->title }}</a>  (обновлений - {{ $statData['historyArticle']->history_count }} )
                         @else
                             нет отредактированных статей на сайте
                         @endif
@@ -80,10 +80,10 @@
                 <tr>
                     <td>Самая обсуждаемая статья</td>
                     <td>
-                        @if( $statisticsData['commentsArticle']->comments_count > 0 )
-                            <a href="/article/{{ $statisticsData['commentsArticle']->slug }}" target="_blank">{{ $statisticsData['commentsArticle']->title }}</a>  (комментариев - {{ $statisticsData['commentsArticle']->comments_count }} )
+                        @if( isset($statData['commentsArticle']) && $statData['commentsArticle']->comments_count > 0 )
+                            <a href="/article/{{ $statData['commentsArticle']->slug }}" target="_blank">{{ $statData['commentsArticle']->title }}</a>  (комментариев - {{ $statData['commentsArticle']->comments_count }} )
                         @else
-                            нет коментариев
+                            на сайте нет коментариев
                         @endif
                     </td>
                 </tr>

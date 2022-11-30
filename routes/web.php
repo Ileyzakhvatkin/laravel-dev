@@ -7,10 +7,6 @@ use App\Models\Article;
 
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
 
-Route::get('/test', function() {
-    dd( User::withCount('articles')->orderByDesc('articles_count')->first() );
-});
-
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');
 Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
 

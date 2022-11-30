@@ -18,6 +18,8 @@ class Article extends Model
         'created' => ArticleCreated::class,
     ];
 
+    protected $appends = [ 'length_text' ];
+
     protected static function boot()
     {
         parent::boot();
@@ -60,7 +62,7 @@ class Article extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'id', 'owner_id');
     }
 
     public function history()
@@ -79,9 +81,9 @@ class Article extends Model
         return ! $this->isActive();
     }
 
-    public function setLengthTextAttribute ()
+    public function getLengthTextAttribute()
     {
-        return $this->attributes['length_text'] = mb_strlen($this->fulltext);
+        return mb_strlen($this->fulltext);
     }
 
     public function newCollection(array $models = [])

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Article;
 use App\Models\News;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class StatisticsController extends Controller
@@ -14,20 +14,20 @@ class StatisticsController extends Controller
         abort_if(! \Auth::user()->isAdmin(),403);
 
 //        $statisticsData = \Cache::tags(['articles', 'news', 'tags'])->remember('statistics_data', 3600, function () {
-//            return $statisticsData;
+//            return $statData;
 //        });
 
-        $statisticsData = [
+        $statData = [
             'countArticles' => Article::all()->count(),
             'countNews' => News::all()->count(),
-            'longestArticle' => Article::get()->first(),
-            'shortestArticle' => Article::get()->last(),
-            'bestAuthor' => User::get()->last(),
-            'averageArticle' => 100,
+            'longestArticle' => Article::all()->each->append([ 'length_text' ])->sortBy('length_text')->first(),
+            'shortestArticle' => Article::all()->each->append([ 'length_text' ])->sortBy('length_text')->last(),
+            'bestAuthor' => User::withCount('articles')->orderByDesc('articles_count')->first(),
+            'averageArticle' => User::has('articles')->withCount('articles')->pluck('articles_count')->avg(),
             'historyArticle' => Article::withCount('history')->orderByDesc('history_count')->first(),
             'commentsArticle' => Article::withCount('comments')->orderByDesc('comments_count')->first(),
         ];
 
-        return view('admin.statistics', compact('statisticsData'));
+        return view('admin.statistics', compact('statData'));
     }
 }
