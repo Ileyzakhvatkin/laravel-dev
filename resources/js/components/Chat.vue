@@ -5,7 +5,7 @@
             <p v-for="message in messages">{{ message }}</p>
         </div>
         <input type="text" name="message" class="form-control" v-model="message" placeholder="Сообщение...">
-        <button class="btn btn-outline-primary btn-sm" @click.prevent="sendMessage">Отправить</button>
+        <button class="btn btn-outline-primary btn-sm" @click.prevent="sendMessage()">Отправить</button>
     </div>
 </template>
 
@@ -66,6 +66,7 @@
 
         methods: {
             sendMessage() {
+                console.log('fgdsfdg');
                 if (this.message.length > 0 ) {
                     axios.post('/chat', { message: this.message })
                             .then(() => {

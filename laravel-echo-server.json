@@ -1,5 +1,5 @@
 {
-	"authHost": "http://laravel-dev/",
+	"authHost": "http://laravel-dev",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
