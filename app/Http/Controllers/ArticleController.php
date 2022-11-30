@@ -38,7 +38,7 @@ class ArticleController extends Controller
 
     public function home()
     {
-        $paginator = isset(\request()->page) ? \request()->page : '1';
+        $paginator = request()->get('page', 1);
         $posts = \Cache::tags(['articles'])
             ->remember('articles_page_' . $paginator, 3600, function () use ($paginator) {
             return Article::with('tags')->where('active', true)->latest()->simplePaginate(10, '*', 'page', $paginator);
@@ -61,7 +61,7 @@ class ArticleController extends Controller
 
     public function more($article)
     {
-        $post = \Cache::tags(['articles', 'tags', 'comments'])->remember('more_' . $article, 3600, function () use ($article) {
+        $post = \Cache::tags(['articles', 'tags', 'comments'])->remember('article_more_' . $article, 3600, function () use ($article) {
             return Article::where('slug', $article)->with(['tags', 'comments'])->first();
         });
 
