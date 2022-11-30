@@ -13,7 +13,7 @@ class StatisticsController extends Controller
     {
         abort_if(! \Auth::user()->isAdmin(),403);
 
-        $statData = \Cache::tags(['articles', 'news', 'tags'])->remember('statistics_data', 3600, function () {
+        $statData = \Cache::tags(['articles', 'news', 'tags', 'comments'])->remember('statistics_data', 3600, function () {
 
             return $statData = [
                 'countArticles' => Article::count(),
@@ -27,7 +27,6 @@ class StatisticsController extends Controller
             ];
 
         });
-
 
         return view('admin.statistics', compact('statData'));
     }

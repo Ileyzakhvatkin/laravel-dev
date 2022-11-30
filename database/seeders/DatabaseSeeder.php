@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
                 Article::factory(rand(0,10))->create([ 'owner_id' => $user ])
                     ->each(function (Article $article) {
                         $article->tags()->saveMany(Tag::all()->random(rand(2,5)));
-//                        $article->comments()->saveMany(Comment::factory(rand(0,7))
-//                            ->make([
-//                                'article_id' => '',
-//                            ]));
+                        $article->comments()->saveMany(Comment::factory(rand(0,7))
+                           ->make([
+                               'article_id' => '',
+                           ]));
                     });
             });
         News::factory(rand(25,35))->create()
