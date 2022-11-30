@@ -2,10 +2,20 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Models\Article;
 
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
+
+Route::get('/test', function () {
+    dd(
+        Article::all()
+            ->each
+            ->append([ DB::raw("SELECT LENGTH(articles.fulltext) as 'length_text' FROM articles") ])
+            ->sortBy('length_text')
+    );
+});
 
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');
 Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
