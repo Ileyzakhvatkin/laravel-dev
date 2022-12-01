@@ -30,7 +30,6 @@ class NewsController extends Controller
     {
         return view('pages.post', [
             'post' => $news,
-            'return_url' => '/news',
         ]);
     }
 

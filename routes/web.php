@@ -14,11 +14,12 @@ Route::get('test', function () {
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');
 Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
 
-Route::get('/', 'App\Http\Controllers\ArticleController@home');
-Route::get('/news', 'App\Http\Controllers\NewsController@index');
+Route::get('/', 'App\Http\Controllers\ArticleController@home')->name('articles-list');
+Route::get('/news', 'App\Http\Controllers\NewsController@index')->name('news-list');
 
-Route::get('/article/{article}', 'App\Http\Controllers\ArticleController@show');
-Route::get('/news/{news}', 'App\Http\Controllers\NewsController@show');
+Route::get('/article/{article}', 'App\Http\Controllers\ArticleController@show')->name('articles-item');
+Route::post('/article/{article}', 'App\Http\Controllers\ArticleCommentsController@store');
+Route::get('/news/{news}', 'App\Http\Controllers\NewsController@show')->name('news-item');
 
 Route::get('/contacts', 'App\Http\Controllers\MessagesController@contacts');
 Route::get('/admin/feedback', 'App\Http\Controllers\MessagesController@feedback');
@@ -33,10 +34,8 @@ Route::post('/admin/service', 'App\Http\Controllers\PushServiceController@send')
 Route::get('/admin/report', 'App\Http\Controllers\ReportController@form');
 Route::post('/admin/report', 'App\Http\Controllers\ReportController@report');
 
-Route::post('/article/{article}', 'App\Http\Controllers\ArticleCommentsController@store');
-
 Route::post('/chat', function () {
-   broadcast(new ChatMessage(request('message')));
+   broadcast(new ChatMessage(\request('message'), auth()->user()));
 })->middleware('auth');
 
 Auth::routes();

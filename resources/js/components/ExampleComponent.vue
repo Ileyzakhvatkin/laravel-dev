@@ -22,7 +22,7 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Test Component mounted.')
         }
     }
 </script>

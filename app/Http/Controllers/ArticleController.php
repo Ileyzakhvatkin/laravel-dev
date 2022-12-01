@@ -53,7 +53,6 @@ class ArticleController extends Controller
     {
         return view('pages.post', [
             'post' => $article,
-            'return_url' => '/',
         ]);
     }
 

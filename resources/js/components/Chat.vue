@@ -59,19 +59,19 @@
                 .leaving((user) => {
                     this.addMessage('Пользователь ' + user.name + ' покинул чат');
                 })
-                .listen('ChatMessage', (data) => {
-                    this.addMessage(data.user.name + ': ' + data.message);
+                .listen('ChatMessage', (e) => {
+                    console.log(e);
+                    this.addMessage(e.user.name + ': ' + e.message);
                 });
         },
 
         methods: {
             sendMessage() {
-                console.log('fgdsfdg');
+                console.log(this.message);
                 if (this.message.length > 0 ) {
-                    axios.post('/chat', { message: this.message })
-                            .then(() => {
-                                this.message = '';
-                            })
+                    axios
+                        .post('/chat', { message: this.message } )
+                        .then(() => { this.message = ''; })
                 }
             },
             addMessage(message) {

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 
     /**
@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         \Blade::if('admin', function () {
             if ( Auth::user() !== null ) {
 
-                return User::isAdmin();
+                return Auth::user()->isAdmin();
             }
         });
 
