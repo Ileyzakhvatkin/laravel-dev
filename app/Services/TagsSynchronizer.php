@@ -18,6 +18,7 @@ class TagsSynchronizer
             $syncIds[] = $tag->id;
         }
         $model->tags()->sync($syncIds);
+        \Cache::tags(['tags'])->flush();
     }
 
     public function syncSecond(Collection $tags, Model $model)

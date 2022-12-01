@@ -13,6 +13,15 @@ class Comment extends Model
 
     public $fillable = ['article_id', 'author_id', 'comment', 'active'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created( function () {
+            \Cache::tags(['comments'])->flush();
+        });
+    }
+
     public function article()
     {
         return $this->belongsTo(Article::class);

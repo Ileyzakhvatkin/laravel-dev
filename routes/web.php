@@ -2,10 +2,19 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Models\Article;
 
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
+
+Route::get('/test', function () {
+    dd(
+        Article::selectRaw('title, slug, LENGTH(articles.fulltext) as "text_count"')
+            ->orderBy('text_count', 'DESC')
+            ->first()
+    );
+});
 
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');
 Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
@@ -13,8 +22,8 @@ Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
 Route::get('/', 'App\Http\Controllers\ArticleController@home');
 Route::get('/news', 'App\Http\Controllers\NewsController@index');
 
-Route::get('/article/{article}', 'App\Http\Controllers\ArticleController@show');
-Route::get('/news/{news}', 'App\Http\Controllers\NewsController@show');
+Route::get('/article/{article}', 'App\Http\Controllers\ArticleController@more');
+Route::get('/news/{news}', 'App\Http\Controllers\NewsController@more');
 
 Route::get('/contacts', 'App\Http\Controllers\MessagesController@contacts');
 Route::get('/admin/feedback', 'App\Http\Controllers\MessagesController@feedback');

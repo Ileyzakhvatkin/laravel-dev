@@ -13,7 +13,7 @@
                 @include('layout.comments-form', ['slug' => $post->slug])
             @endif
             <hr>
-            <p><a href="{{ $return_url }}">Все публикации</a></p>
+            <p><a href="{{ url()->previous() }}">Вернуться в раздел</a></p>
         </div>
     </div>
 @endsection

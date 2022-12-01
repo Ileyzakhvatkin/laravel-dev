@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function articles()
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class, 'owner_id', 'id');
     }
 
     public function author()

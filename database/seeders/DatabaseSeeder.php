@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
                     ->each(function (Article $article) {
                         $article->tags()->saveMany(Tag::all()->random(rand(2,5)));
                         $article->comments()->saveMany(Comment::factory(rand(0,7))
-                            ->make([
-                                'article_id' => '',
-                            ]));
+                           ->make([
+                               'article_id' => '',
+                           ]));
                     });
             });
         News::factory(rand(25,35))->create()

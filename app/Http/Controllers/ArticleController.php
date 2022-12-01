@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ArticleCreated;
 use App\Models\Article;
-use App\Models\User;
 use App\Notifications\ArticleCreationCompleted;
 use App\Notifications\ArticleDeleteCompleted;
 use App\Notifications\ArticleUpdateCompleted;
 use App\Services\Pushall;
 use App\Services\TagsSynchronizer;
 use App\Services\FormRequest;
+use Illuminate\Filesystem\Cache;
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
@@ -39,7 +38,11 @@ class ArticleController extends Controller
 
     public function home()
     {
-        $posts = Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
+        $paginator = request()->get('page', 1);
+        $posts = \Cache::tags(['articles'])
+            ->remember('articles_page_' . $paginator, 3600, function () use ($paginator) {
+            return Article::with('tags')->where('active', true)->latest()->simplePaginate(10, '*', 'page', $paginator);
+        });
 
         return view('index', [
             'posts' => $posts,
@@ -53,7 +56,17 @@ class ArticleController extends Controller
     {
         return view('pages.post', [
             'post' => $article,
-            'return_url' => '/',
+        ]);
+    }
+
+    public function more($article)
+    {
+        $post = \Cache::tags(['articles', 'tags', 'comments'])->remember('article_more_' . $article, 3600, function () use ($article) {
+            return Article::where('slug', $article)->with(['tags', 'comments'])->first();
+        });
+
+        return view('pages.post', [
+            'post' => $post,
         ]);
     }
 
@@ -65,7 +78,7 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function store(FormRequest $formRequest, TagsSynchronizer $tSync, Pushall $pushall)
+    public function store(FormRequest $formRequest, TagsSynchronizer $tSync)
     {
         $article = Article::create($formRequest->postCreate(request()));
         $formTags = collect(explode(',', request('tags')));

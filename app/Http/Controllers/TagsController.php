@@ -9,13 +9,18 @@ class TagsController extends Controller
 {
     public function index(Tag $tag)
     {
-        $articles = $tag->articles()->with('tags')->latest()->get();
-        $news = $tag->news()->with('tags')->latest()->get();
+        $data = \Cache::tags(['tags'])->remember('tag_' . $tag->id, 3600, function () use ($tag)  {
+            return [
+                'articles' => $tag->articles()->with('tags')->latest()->get(),
+                'news' => $tag->news()->with('tags')->latest()->get()
+            ];
+        });
 
         return view('pages.tags', [
-            'articles' => $articles,
-            'news' => $news,
+            'articles' => $data['articles'],
+            'news' => $data['news'],
             'page_tag' => '"' . $tag->name . '"',
+            'empty_post' => 'Нет материалов по этому тегу',
         ]);
     }
 }
