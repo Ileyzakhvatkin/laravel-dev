@@ -35,7 +35,7 @@ Route::get('/admin/report', 'App\Http\Controllers\ReportController@form');
 Route::post('/admin/report', 'App\Http\Controllers\ReportController@report');
 
 Route::post('/chat', function () {
-   broadcast(new ChatMessage(\request('message'), auth()->user()));
+   broadcast(new ChatMessage(\request('message'), auth()->user()))->toOthers();
 })->middleware('auth');
 
 Auth::routes();

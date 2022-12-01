@@ -4,7 +4,10 @@
         <div class="chat-messages">
             <p v-for="message in messages">{{ message }}</p>
         </div>
-        <input type="text" name="message" class="form-control" v-model="message" placeholder="Сообщение...">
+        <div class="notify">
+            {{ notify }}
+        </div>
+        <input type="text" name="message" class="form-control" v-model="message" @keydown="whisperTyping" placeholder="Сообщение...">
         <button class="btn btn-outline-primary btn-sm" @click.prevent="sendMessage()">Отправить</button>
     </div>
 </template>
@@ -45,12 +48,15 @@
             return {
                 messages: [],
                 message: '',
+                notify: 'Все спят',
+                channel: null,
             }
         },
 
         mounted() {
-            Echo.join('chat')
-                .here((users) => {
+            this.channel = Echo.join('chat');
+
+            this.channel.here((users) => {
                     this.addMessage('В чате  ' + users.length + ' участников');
                 })
                 .joining((user) => {
@@ -63,20 +69,37 @@
                     console.log(e);
                     this.addMessage(e.user.name + ': ' + e.message);
                 });
+
+            this.channel.listenForWhisper('typing', (data) => {
+                this.addNotify('Печатает ' + data.name)
+            })
         },
 
         methods: {
             sendMessage() {
                 console.log(this.message);
+                let message = this.message;
+                this.message = '';
+                this.addMessage('Я: ' + message);
+
                 if (this.message.length > 0 ) {
                     axios
                         .post('/chat', { message: this.message } )
-                        .then(() => { this.message = ''; })
+                        .then(() => {  })
                 }
             },
+
             addMessage(message) {
                 this.messages.push(message);
             },
+
+            addNotify(data) {
+                this.notify = data;
+            },
+
+            whisperTyping() {
+                this.channel.whisper('typing', {name: 'другой участник'});
+            }
         },
     }
 </script>
