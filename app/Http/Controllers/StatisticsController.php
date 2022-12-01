@@ -17,8 +17,12 @@ class StatisticsController extends Controller
             return $statData = [
                 'countArticles' => Article::count(),
                 'countNews' => News::count(),
-                'longestArticle' => Article::all()->each->append([ 'length_text' ])->sortBy('length_text')->first(),
-                'shortestArticle' => Article::all()->each->append([ 'length_text' ])->sortBy('length_text')->last(),
+                'longestArticle' => Article::selectRaw('title, slug, LENGTH(articles.fulltext) as "text_count"')
+                    ->orderBy('text_count', 'ASC')
+                    ->first(),
+                'shortestArticle' => Article::selectRaw('title, slug, LENGTH(articles.fulltext) as "text_count"')
+                    ->orderBy('text_count', 'DESC')
+                    ->first(),
                 'bestAuthor' => User::withCount('articles')->orderByDesc('articles_count')->first(),
                 'averageArticle' => User::has('articles')->withCount('articles')->pluck('articles_count')->avg(),
                 'historyArticle' => Article::withCount('history')->orderByDesc('history_count')->first(),

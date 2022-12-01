@@ -10,10 +10,9 @@ Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
 
 Route::get('/test', function () {
     dd(
-        Article::all()
-            ->each
-            ->append([ DB::raw("SELECT LENGTH(articles.fulltext) as 'length_text' FROM articles") ])
-            ->sortBy('length_text')
+        Article::selectRaw('title, slug, LENGTH(articles.fulltext) as "text_count"')
+            ->orderBy('text_count', 'DESC')
+            ->first()
     );
 });
 

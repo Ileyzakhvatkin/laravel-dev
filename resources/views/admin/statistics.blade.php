@@ -40,7 +40,7 @@
                     <td>
                         @if( is_object($statData['longestArticle']) )
                             <a href="/article/{{ $statData['longestArticle']->slug }}" target="_blank">{{ $statData['longestArticle']->title }}</a>
-                            (символов - {{ mb_strlen($statData['longestArticle']->fulltext) }})
+                            (символов - {{ $statData['longestArticle']->text_count }})
                         @else
                             на сайте нет статей
                         @endif
@@ -51,7 +51,7 @@
                     <td>
                         @if( is_object($statData['shortestArticle']) )
                             <a href="/article/{{ $statData['shortestArticle']->slug }}" target="_blank">{{ $statData['shortestArticle']->title }}</a>
-                            (символов - {{ mb_strlen($statData['shortestArticle']->fulltext) }})
+                            (символов - {{ $statData['shortestArticle']->text_count}})
                         @else
                             на сайте нет статей
                         @endif
