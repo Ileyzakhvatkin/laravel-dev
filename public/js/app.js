@@ -278,8 +278,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 Echo.channel('hello-channel').listen('SomethingHappens', function (e) {
   alert(e.whatHappens);
 });
-Echo["private"]('App.Models.User.' + userId).notification(function (notification) {
+Echo.join('admin-channel').notification(function (notification) {
   console.log(notification.type);
+  alert(notification.subject);
 });
 
 /***/ }),

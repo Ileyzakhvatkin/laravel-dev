@@ -1,5 +1,6 @@
 <?php
 
+use App\Broadcasting\AdminChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -20,3 +21,5 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('chat', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
+
+Broadcast::channel('admin-channel', AdminChannel::class);

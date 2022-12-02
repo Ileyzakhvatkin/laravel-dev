@@ -36,6 +36,7 @@ class ArticleUpdateCompleted extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
+            'article' => $this->article,
             'subject' => $this->subject
         ]);
     }
