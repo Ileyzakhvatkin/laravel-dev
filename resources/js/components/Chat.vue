@@ -19,7 +19,7 @@
         bottom: 15px;
         right: 15px;
         width: 300px;
-        height: 300px;
+        height: 315px;
         padding: 10px;
         background-color: #ffffff;
         border-radius: 10px;
@@ -34,9 +34,12 @@
         margin-bottom: 10px;
         overflow-y: scroll;
     }
-
     .chat-prop input {
         margin-bottom: 10px;
+    }
+    .notify {
+        font-size: 12px;
+        height: 20px;
     }
 
 </style>
@@ -48,7 +51,7 @@
             return {
                 messages: [],
                 message: '',
-                notify: 'Все спят',
+                notify: '',
                 channel: null,
             }
         },
@@ -65,19 +68,20 @@
                 .leaving((user) => {
                     this.addMessage('Пользователь ' + user.name + ' покинул чат');
                 })
-                .listen('ChatMessage', (e) => {
-                    console.log(e);
-                    this.addMessage(e.user.name + ': ' + e.message);
+                .listen('ChatMessage', (data) => {
+                    this.addMessage(data.user.name + ': ' + data.message);
                 });
 
             this.channel.listenForWhisper('typing', (data) => {
-                this.addNotify('Печатает ' + data.name)
+                this.addNotify('Печатает ' + data.name);
+                setTimeout(() => {
+                    this.notify = '';
+                }, 3000)
             })
         },
 
         methods: {
             sendMessage() {
-                console.log(this.message);
                 let message = this.message;
                 this.message = '';
                 this.addMessage('Я: ' + message);
@@ -85,7 +89,7 @@
                 if (this.message.length > 0 ) {
                     axios
                         .post('/chat', { message: this.message } )
-                        .then(() => {  })
+                        .then(() => { })
                 }
             },
 
@@ -98,7 +102,7 @@
             },
 
             whisperTyping() {
-                this.channel.whisper('typing', {name: 'другой участник'});
+                this.channel.whisper('typing', {name: 'другой участник...'});
             }
         },
     }

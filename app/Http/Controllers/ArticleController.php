@@ -70,7 +70,7 @@ class ArticleController extends Controller
         $formTags = collect(explode(',', request('tags')));
         $tSync->sync($formTags, $article);
 
-        $article->owner->notify(new ArticleCreationCompleted($article));
+        $article->owner->notify(new ArticleCreationCompleted($article, 'Создана публикация: '));
 
         push_all('Создана новая статья - ' . $article->title, $article->brief);
         flash('Статья успешно создана!', 'success');
@@ -93,7 +93,7 @@ class ArticleController extends Controller
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
         $tSync->sync($formTags, $article);
 
-        $article->owner->notify(new ArticleUpdateCompleted($article));
+        $article->owner->notify(new ArticleUpdateCompleted($article, 'Обновлена публикация: '));
         flash('Статья успешно изменена!', 'success');
 
         return redirect('/admin/article/' . request('slug') . '/edit');
@@ -101,7 +101,7 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        $article->owner->notify(new ArticleDeleteCompleted($article));
+        $article->owner->notify(new ArticleDeleteCompleted($article, 'Удалена публикация: '));
         $article->delete();
         flash('Статья "' . $article->title . '" удалена.', 'success');
 

@@ -8,4 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    <script>
+        var userId = {{ auth()->check() ? auth()->id() : 0 }};
+        console.log(userId);
+    </script>
 </head>
