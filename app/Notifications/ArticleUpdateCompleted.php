@@ -40,4 +40,10 @@ class ArticleUpdateCompleted extends Notification
             'subject' => $this->subject
         ]);
     }
+
+    public function receivesBroadcastVerificationsOn()
+    {
+        return 'AdminChannel';
+    }
+
 }

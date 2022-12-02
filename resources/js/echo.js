@@ -1,13 +1,11 @@
 // console.log('echo test');
-Echo
-    .channel('hello-channel')
+Echo.channel('hello-channel')
     .listen('SomethingHappens', (e) => {
         alert(e.whatHappens);
     });
 
-Echo
-    .join('admin-channel')
+Echo.channel('AdminChannel')
     .notification((notification) => {
-        console.log(notification.type);
-        alert(notification.subject);
+        console.log('Монипуляция со статьей');
+        alert('Монипуляция со статьей');
     });

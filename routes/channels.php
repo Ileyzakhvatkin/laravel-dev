@@ -22,4 +22,6 @@ Broadcast::channel('chat', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
 
-Broadcast::channel('admin-channel', AdminChannel::class);
+Broadcast::channel('AdminChannel', function ($user) {
+    return $user->isAdmin();
+});
