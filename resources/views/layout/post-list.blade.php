@@ -5,7 +5,7 @@
         <p class="blog-post-meta">@datatime($post->created_at)</p>
         <p>{{ $post->brief }}</p>
         @include('layout.tags', ['tags' => $post->tags])
-        <p><a class="more" href="/{{ $cat_slug }}/{{ $post->slug }}">Подробнее...</a></p>
+        <p><a class="more" href="{{ route($cat_slug, [$cat_slug => $post->slug] ) }}">Подробнее...</a></p>
         @canany(['update', 'admin'], $post)
             <div class="btn-group btn-group-sm">
                 <a class="btn btn-outline-secondary me-2" href="/admin/{{ $cat_slug }}/{{ $post->slug }}/edit">Edit</a>

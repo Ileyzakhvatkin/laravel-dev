@@ -17,9 +17,9 @@ Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
 Route::get('/', 'App\Http\Controllers\ArticleController@home');
 Route::get('/news', 'App\Http\Controllers\NewsController@index');
 
-Route::get('/article/{article}', 'App\Http\Controllers\ArticleController@show');
+Route::get('/article/{article}', 'App\Http\Controllers\ArticleController@show')->name('article');
 Route::post('/article/{article}', 'App\Http\Controllers\ArticleCommentsController@store');
-Route::get('/news/{news}', 'App\Http\Controllers\NewsController@show');
+Route::get('/news/{news}', 'App\Http\Controllers\NewsController@show')->name('news');
 
 Route::get('/contacts', 'App\Http\Controllers\MessagesController@contacts');
 Route::get('/admin/feedback', 'App\Http\Controllers\MessagesController@feedback');
