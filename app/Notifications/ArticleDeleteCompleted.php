@@ -40,9 +40,4 @@ class ArticleDeleteCompleted extends Notification
         ]);
     }
 
-    public function receivesBroadcastVerificationsOn()
-    {
-        return 'AdminChannel';
-    }
-
 }

@@ -41,9 +41,4 @@ class ArticleUpdateCompleted extends Notification
         ]);
     }
 
-    public function receivesBroadcastVerificationsOn()
-    {
-        return 'AdminChannel';
-    }
-
 }

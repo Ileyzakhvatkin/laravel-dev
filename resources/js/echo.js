@@ -4,7 +4,7 @@ Echo.channel('hello-channel')
         alert(e.whatHappens);
     });
 
-Echo.channel('AdminChannel')
+Echo.private('App.Models.User.' + userId)
     .notification((notification) => {
         console.log('Монипуляция со статьей');
         alert('Монипуляция со статьей');
