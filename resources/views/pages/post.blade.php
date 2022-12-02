@@ -13,7 +13,7 @@
                 @include('layout.comments-form', ['slug' => $post->slug])
             @endif
             <hr>
-            <p><a href="{{  url()->previous() }}">Все публикации</a></p>
+            <p><a href="{{ route($cat_list_slug) }}">Все публикации</a></p>
         </div>
     </div>
 @endsection

@@ -30,6 +30,7 @@ class NewsController extends Controller
     {
         return view('pages.post', [
             'post' => $news,
+            'cat_list_slug' => 'news-list'
         ]);
     }
 

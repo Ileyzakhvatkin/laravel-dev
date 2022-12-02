@@ -7,7 +7,7 @@
 @if( $tags->isNotEmpty() )
     <div class="btn-group btn-group-sm mb-3 d-flex flex-wrap">
         @foreach( $tags as $tag )
-            <a href="/article/tags/{{ $tag->name }}" class="badge bg-success me-1 mb-2">{{ $tag->name }}</a>
+            <a href="{{ route('tags-page', ['tag' => $tag->name] ) }}" class="badge bg-success me-1 mb-2">{{ $tag->name }}</a>
         @endforeach
     </div>
 @endif

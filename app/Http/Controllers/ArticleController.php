@@ -45,7 +45,7 @@ class ArticleController extends Controller
             'posts' => $posts,
             'page_title' => 'Опубликованные статьи',
             'cat_slug' => 'article',
-            'empty_post' => 'На сайте не опубликовано ни одной статьи!',
+            'empty_post' => 'На сайте не опубликовано ни одной статьи!'
         ]);
     }
 
@@ -53,6 +53,7 @@ class ArticleController extends Controller
     {
         return view('pages.post', [
             'post' => $article,
+            'cat_list_slug' => 'article-list'
         ]);
     }
 

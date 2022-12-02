@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Events\SomethingHappens;
 use App\Events\ChatMessage;
 
-Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index');
+Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index')->name('tags-page');
 
 Route::get('test', function () {
     event(new SomethingHappens('Мы настроили ws-соединение!!!'));
@@ -14,8 +14,8 @@ Route::get('test', function () {
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');
 Route::resource('/admin/news', 'App\Http\Controllers\NewsController');
 
-Route::get('/', 'App\Http\Controllers\ArticleController@home');
-Route::get('/news', 'App\Http\Controllers\NewsController@index');
+Route::get('/', 'App\Http\Controllers\ArticleController@home')->name('article-list');
+Route::get('/news', 'App\Http\Controllers\NewsController@index')->name('news-list');
 
 Route::get('/article/{article}', 'App\Http\Controllers\ArticleController@show')->name('article');
 Route::post('/article/{article}', 'App\Http\Controllers\ArticleCommentsController@store');
