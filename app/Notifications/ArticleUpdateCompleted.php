@@ -12,12 +12,12 @@ class ArticleUpdateCompleted extends Notification
     use Queueable;
 
     private $article;
-    protected $subject;
+    protected $changes;
 
-    public function __construct($article, $subject)
+    public function __construct($article, $changes)
     {
         $this->article = $article;
-        $this->subject = $subject;
+        $this->changes = $changes;
     }
 
     public function via($notifiable)
@@ -36,8 +36,9 @@ class ArticleUpdateCompleted extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'article' => $this->article,
-            'subject' => $this->subject
+            'title' => $this->article->title,
+            'slug' => $this->article->slug,
+            'changes' => $this->changes,
         ]);
     }
 

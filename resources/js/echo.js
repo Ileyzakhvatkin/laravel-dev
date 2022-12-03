@@ -4,8 +4,8 @@ Echo.channel('hello-channel')
         alert(e.whatHappens);
     });
 
-Echo.private('App.Models.User.' + userId)
-    .notification((notification) => {
-        console.log('Монипуляция со статьей');
-        alert('Монипуляция со статьей');
-    });
+// Echo.private('App.Models.User.1')
+//     .notification((notification) => {
+//         console.log(notification.subject);
+//         alert(notification.subject);
+//     });

@@ -41,9 +41,9 @@ class ArticleCreationCompleted extends Notification
         ]);
     }
 
-    public function receivesBroadcastVerificationsOn()
-    {
-        return 'AdminChannel';
-    }
+//    public function receivesBroadcastVerificationsOn()
+//    {
+//        return 'AdminChannel';
+//    }
 
 }

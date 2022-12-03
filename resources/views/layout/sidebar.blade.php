@@ -33,13 +33,13 @@
             </li>
         </ul>
     </div>
+    <div class="p-3 mb-3 bg-light rounded">
+        <h4 class="font-italic">Change Article Info</h4>
+        <article-changed></article-changed>
+    </div>
     @endadmin
     <div class="p-3 mb-3 bg-light rounded">
         <h4 class="font-italic">Теги</h4>
         @include('layout.tags', ['tags' => $tagsCloud])
-    </div>
-    <div class="p-3 mb-3 bg-light rounded">
-        <h4 class="font-italic">Vue component</h4>
-        <example-component></example-component>
     </div>
 </aside>

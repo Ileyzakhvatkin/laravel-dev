@@ -7,8 +7,13 @@ use App\Events\ChatMessage;
 
 Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index')->name('tags-page');
 
-Route::get('test', function () {
+Route::get('/test', function () {
     event(new SomethingHappens('Мы настроили ws-соединение!!!'));
+});
+
+Route::get('/clear', function () {
+    Log::debug('CLEARED');
+    Artisan::call('cache:clear');
 });
 
 Route::resource('/admin/article', 'App\Http\Controllers\ArticleController');

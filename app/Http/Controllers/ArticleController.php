@@ -12,6 +12,7 @@ use App\Services\Pushall;
 use App\Services\TagsSynchronizer;
 use App\Services\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class ArticleController extends Controller
 {
@@ -71,7 +72,7 @@ class ArticleController extends Controller
         $formTags = collect(explode(',', request('tags')));
         $tSync->sync($formTags, $article);
 
-        $article->owner->notify(new ArticleCreationCompleted($article, 'Создана публикация: '));
+        $article->owner->notify(new ArticleCreationCompleted($article, 'Создана публикация: ' . $article->title));
 
         push_all('Создана новая статья - ' . $article->title, $article->brief);
         flash('Статья успешно создана!', 'success');
@@ -94,7 +95,8 @@ class ArticleController extends Controller
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
         $tSync->sync($formTags, $article);
 
-        $article->owner->notify(new ArticleUpdateCompleted($article, 'Обновлена публикация: '));
+        $article->owner->notify(new ArticleUpdateCompleted($article, array_keys($article->getChanges())));
+
         flash('Статья успешно изменена!', 'success');
 
         return redirect('/admin/article/' . request('slug') . '/edit');
@@ -102,7 +104,7 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        $article->owner->notify(new ArticleDeleteCompleted($article, 'Удалена публикация: '));
+        $article->owner->notify(new ArticleDeleteCompleted($article, 'Удалена публикация: ' . $article->title));
         $article->delete();
         flash('Статья "' . $article->title . '" удалена.', 'success');
 
