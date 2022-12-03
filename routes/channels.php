@@ -1,6 +1,7 @@
 <?php
 
 use App\Broadcasting\AdminChannel;
+use App\Models\Article;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -22,6 +23,7 @@ Broadcast::channel('chat', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
 
-Broadcast::channel('AdminChannel', function ($user) {
+Broadcast::channel('admin-channel.{id}', function ($user, $id) {
     return $user->isAdmin();
+    // return Auth::user()->isAdmin();
 });

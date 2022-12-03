@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ArticleCreated;
 use App\Models\Article;
-use App\Models\User;
 use App\Notifications\ArticleCreationCompleted;
 use App\Notifications\ArticleDeleteCompleted;
 use App\Notifications\ArticleUpdateCompleted;
@@ -12,7 +10,6 @@ use App\Services\Pushall;
 use App\Services\TagsSynchronizer;
 use App\Services\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Arr;
 
 class ArticleController extends Controller
 {
@@ -72,7 +69,7 @@ class ArticleController extends Controller
         $formTags = collect(explode(',', request('tags')));
         $tSync->sync($formTags, $article);
 
-        $article->owner->notify(new ArticleCreationCompleted($article, 'Создана публикация: ' . $article->title));
+        $article->owner->notify(new ArticleCreationCompleted($article));
 
         push_all('Создана новая статья - ' . $article->title, $article->brief);
         flash('Статья успешно создана!', 'success');
@@ -104,7 +101,7 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        $article->owner->notify(new ArticleDeleteCompleted($article, 'Удалена публикация: ' . $article->title));
+        $article->owner->notify(new ArticleDeleteCompleted($article));
         $article->delete();
         flash('Статья "' . $article->title . '" удалена.', 'success');
 

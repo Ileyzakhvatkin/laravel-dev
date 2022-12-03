@@ -12,17 +12,15 @@ class ArticleCreationCompleted extends Notification
     use Queueable;
 
     private $article;
-    protected $subject;
 
-    public function __construct($article, $subject)
+    public function __construct($article)
     {
         $this->article = $article;
-        $this->subject = $subject;
     }
 
     public function via($notifiable)
     {
-        return ['mail', 'broadcast'];
+        return ['mail'];
     }
 
     public function toMail($notifiable)
@@ -32,18 +30,5 @@ class ArticleCreationCompleted extends Notification
             ->line('Вы создали статью "' . $this->article->title . '"')
             ->action('Посмотреть статью', url('/article/' . $this->article->slug ));
     }
-
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'article' => $this->article,
-            'subject' => $this->subject
-        ]);
-    }
-
-//    public function receivesBroadcastVerificationsOn()
-//    {
-//        return 'AdminChannel';
-//    }
 
 }

@@ -9,6 +9,7 @@ Route::get('/article/tags/{tag}', 'App\Http\Controllers\TagsController@index')->
 
 Route::get('/test', function () {
     event(new SomethingHappens('Мы настроили ws-соединение!!!'));
+    dd( Auth::user()->isAdmin() );
 });
 
 Route::get('/clear', function () {

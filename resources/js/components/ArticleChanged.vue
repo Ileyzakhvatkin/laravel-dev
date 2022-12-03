@@ -20,8 +20,9 @@
             }
         },
         mounted() {
-            Echo.private('App.Models.User.1')
+            Echo.private('admin-channel.1')
                 .notification((notification) => {
+                    alert('На сайте изменена публикация, смотри изменения в блоке "Change Article Info"');
                     console.log(notification);
                     this.title = notification.title;
                     this.slug = notification.slug;

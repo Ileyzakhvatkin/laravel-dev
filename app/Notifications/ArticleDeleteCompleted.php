@@ -12,17 +12,15 @@ class ArticleDeleteCompleted extends Notification
     use Queueable;
 
     private $article;
-    protected $subject;
 
-    public function __construct($article, $subject)
+    public function __construct($article)
     {
         $this->article = $article;
-        $this->subject = $subject;
     }
 
     public function via($notifiable)
     {
-        return ['mail', 'broadcast'];
+        return ['mail'];
     }
 
     public function toMail($notifiable)
@@ -31,13 +29,4 @@ class ArticleDeleteCompleted extends Notification
             ->subject('Cтатья "' . $this->article->title . '" удалена')
             ->line('Вы удалили статью "' . $this->article->title . '"');
     }
-
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'article' => $this->article,
-            'subject' => $this->subject
-        ]);
-    }
-
 }
