@@ -23,7 +23,8 @@ Broadcast::channel('chat', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
 
-Broadcast::channel('admin-channel.{id}', function ($user, $id) {
-    return $user->isAdmin();
-    // return Auth::user()->isAdmin();
+Broadcast::channel('admin-channel', function ($user) {
+    if ( $user->isAdmin() ) {
+        return ['id' => $user->id, 'name' => $user->name];
+    }
 });
