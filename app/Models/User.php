@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return Auth::user()->roles()->first()->name === 'admin';
     }
+
+//    public function receivesBroadcastNotificationsOn()
+//    {
+//        return 'users.'.$this->id;
+//    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -40,6 +42,11 @@ class ArticleUpdateCompleted extends Notification
             'slug' => $this->article->slug,
             'changes' => $this->changes,
         ]);
+    }
+
+    public function broadcastOn()
+    {
+        return new PrivateChannel('admin-channel.1');
     }
 
 }

@@ -20,7 +20,7 @@
             }
         },
         mounted() {
-            Echo.join('admin-channel')
+            Echo.private('admin-channel.1')
                 .notification((notification) => {
                     alert('На сайте изменена публикация, смотри изменения в блоке "Change Article Info"');
                     console.log(notification);
