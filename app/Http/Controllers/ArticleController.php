@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ArticleCreated;
 use App\Models\Article;
-use App\Models\User;
 use App\Notifications\ArticleCreationCompleted;
 use App\Notifications\ArticleDeleteCompleted;
 use App\Notifications\ArticleUpdateCompleted;
@@ -45,7 +43,7 @@ class ArticleController extends Controller
             'posts' => $posts,
             'page_title' => 'Опубликованные статьи',
             'cat_slug' => 'article',
-            'empty_post' => 'На сайте не опубликовано ни одной статьи!',
+            'empty_post' => 'На сайте не опубликовано ни одной статьи!'
         ]);
     }
 
@@ -53,7 +51,7 @@ class ArticleController extends Controller
     {
         return view('pages.post', [
             'post' => $article,
-            'return_url' => '/',
+            'cat_list_slug' => 'article-list'
         ]);
     }
 
@@ -94,7 +92,8 @@ class ArticleController extends Controller
         $formTags = collect(explode(',', request('tags')))->keyBy(function ($item) { return $item; });
         $tSync->sync($formTags, $article);
 
-        $article->owner->notify(new ArticleUpdateCompleted($article));
+        $article->owner->notify(new ArticleUpdateCompleted($article, array_keys($article->getChanges())));
+
         flash('Статья успешно изменена!', 'success');
 
         return redirect('/admin/article/' . request('slug') . '/edit');
