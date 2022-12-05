@@ -37,13 +37,17 @@ class ArticleController extends Controller
 
     public function home()
     {
-        $posts = Article::with('tags')->where('active', true)->latest()->simplePaginate(10);
+        $paginator = request()->get('page', 1);
+        $posts = \Cache::tags(['articles'])
+            ->remember('articles_page_' . $paginator, 3600, function () use ($paginator) {
+                return Article::with('tags')->where('active', true)->latest()->simplePaginate(10, '*', 'page', $paginator);
+            });
 
         return view('index', [
             'posts' => $posts,
             'page_title' => 'Опубликованные статьи',
             'cat_slug' => 'article',
-            'empty_post' => 'На сайте не опубликовано ни одной статьи!'
+            'empty_post' => 'На сайте не опубликовано ни одной статьи!',
         ]);
     }
 
@@ -51,6 +55,17 @@ class ArticleController extends Controller
     {
         return view('pages.post', [
             'post' => $article,
+        ]);
+    }
+
+    public function more($article)
+    {
+        $post = \Cache::tags(['articles', 'tags', 'comments'])->remember('article_more_' . $article, 3600, function () use ($article) {
+            return Article::where('slug', $article)->with(['tags', 'comments'])->first();
+        });
+
+        return view('pages.post', [
+            'post' => $post,
             'cat_list_slug' => 'article-list'
         ]);
     }

@@ -16,7 +16,10 @@ class NewsController extends Controller
 
     public function index()
     {
-        $posts = News::where('active', true)->latest()->simplePaginate(10);
+        $paginator = request()->get('page', 1);
+        $posts = \Cache::tags(['news'])->remember('news_' . $paginator, 3600, function () use ($paginator) {
+            return News::where('active', true)->latest()->simplePaginate(10, '*', 'page', $paginator);
+        });
 
         return view('index', [
             'posts' => $posts,
@@ -30,6 +33,18 @@ class NewsController extends Controller
     {
         return view('pages.post', [
             'post' => $news,
+            'cat_list_slug' => 'news-list'
+        ]);
+    }
+
+    public function more($news)
+    {
+        $post = \Cache::tags(['news'])->remember('news_more_' . $news, 3600, function () use ($news) {
+            return News::where('slug', $news)->with('tags')->first();
+        });
+
+        return view('pages.post', [
+            'post' => $post,
             'cat_list_slug' => 'news-list'
         ]);
     }
