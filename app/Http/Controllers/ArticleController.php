@@ -15,8 +15,8 @@ class ArticleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['home', 'index', 'show']]);
-        $this->middleware('can:update,article', ['except' => ['home', 'index', 'show', 'store', 'create']]);
+        $this->middleware('auth', ['except' => ['home', 'index', 'show', 'more']]);
+        $this->middleware('can:update,article', ['except' => ['home', 'index', 'show', 'more', 'store', 'create']]);
     }
 
     public function index()

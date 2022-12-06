@@ -11,7 +11,7 @@ class NewsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:create,news', ['except' => ['index', 'show']]);
+        $this->middleware('can:create,news', ['except' => ['index', 'show', 'more']]);
     }
 
     public function index()
