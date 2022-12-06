@@ -14,42 +14,24 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    /**
-     * @var mixed
-     */
 
     public function articles()
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class, 'owner_id', 'id');
     }
 
     public function author()
@@ -67,8 +49,4 @@ class User extends Authenticatable
         return Auth::user()->roles()->first()->name === 'admin';
     }
 
-//    public function receivesBroadcastNotificationsOn()
-//    {
-//        return 'users.'.$this->id;
-//    }
 }
